@@ -2091,6 +2091,81 @@ const chaptersData = {
         difficulty: "Basic",
         concept: "Trading System Components",
         hint: "Think about both getting into and getting out of trades systematically."
+      },
+      {
+        id: 2,
+        question: "What is the core hypothesis behind the moving average crossover system?",
+        options: [
+          "Stock prices always revert to their moving averages",
+          "A sustainable and profitable trend can be identified by crossover of smaller and larger moving averages",
+          "Moving averages predict future price movements with certainty",
+          "Crossovers eliminate the need for stop losses"
+        ],
+        correct: 1,
+        explanation: "The moving average crossover hypothesis states that sustainable and profitable trends can be identified when a smaller (faster) moving average crosses over a larger (slower) moving average. This signal suggests momentum shifts that may indicate entry or exit opportunities, though it doesn't guarantee profits or eliminate risk.",
+        difficulty: "Basic",
+        concept: "Moving Average Crossover System",
+        hint: "Consider what the interaction between fast and slow averages might signal about market trends."
+      },
+      {
+        id: 3,
+        question: "Why should back-testing incorporate both in-sample and out-of-sample periods?",
+        options: [
+          "To increase the total number of trades analyzed",
+          "To validate that optimized parameters work on unseen data and avoid overfitting",
+          "To make the back-testing process longer and more complex",
+          "To ensure equal bull and bear market representation"
+        ],
+        correct: 1,
+        explanation: "In-sample testing is used for parameter optimization, while out-of-sample testing validates whether those optimized parameters perform well on data not used during optimization. This approach helps detect overfitting, where a strategy appears profitable on historical data but fails on new data because it was excessively tailored to past patterns rather than capturing genuine market dynamics.",
+        difficulty: "Intermediate",
+        concept: "Back-Testing Methodology",
+        hint: "Think about the danger of creating a strategy that works perfectly on past data but fails in real trading."
+      },
+      {
+        id: 4,
+        question: "Which market phases should be included in a comprehensive back-testing period?",
+        options: [
+          "Only bullish periods to maximize apparent returns",
+          "Bullish, bearish, consolidation, and distribution phases",
+          "Just the most recent year of data",
+          "Only periods with high volatility"
+        ],
+        correct: 1,
+        explanation: "Comprehensive back-testing must include bullish (rising), bearish (falling), consolidation (sideways), and distribution (topping) phases to evaluate strategy robustness across diverse market conditions. A strategy that only works in trending markets will fail during consolidation, so testing across all phases reveals true performance characteristics and limitations.",
+        difficulty: "Intermediate",
+        concept: "Back-Testing Market Coverage",
+        hint: "Consider what different market conditions your strategy will face in real trading."
+      },
+      {
+        id: 5,
+        question: "What does the hit ratio measure in P&L analysis?",
+        options: [
+          "The total profit divided by total capital",
+          "The probability of a trade being profitable (winning trades/total trades)",
+          "The average size of winning trades",
+          "The maximum number of consecutive wins"
+        ],
+        correct: 1,
+        explanation: "Hit ratio, also called success ratio, measures the probability of a trade being profitable by calculating the number of winning trades divided by total trades. For example, if 40 out of 100 trades are profitable, the hit ratio is 40%. This metric is crucial for position sizing using the Kelly criterion and understanding strategy reliability.",
+        difficulty: "Basic",
+        concept: "Hit Ratio",
+        hint: "Think about what percentage of your trades end up making money."
+      }      },
+      {
+        id: 6,
+        question: "How is the Expectancy of a trading system calculated?",
+        options: [
+          "Total profit divided by number of trades",
+          "(P_win × Amt_win) - (P_loss × Amt_loss)",
+          "Hit ratio multiplied by average profit",
+          "Maximum profit minus maximum loss"
+        ],
+        correct: 1,
+        explanation: "Expectancy = (Probability_win × Amount_win) - (Probability_loss × Amount_loss). This formula calculates the expected value per trade by weighing both the probability and magnitude of wins and losses. A positive expectancy indicates a profitable system over many trades, even with a low hit ratio if wins are sufficiently larger than losses.",
+        difficulty: "Intermediate",
+        concept: "Expectancy Calculation",
+        hint: "Consider both how often you win/lose AND how much you win/lose when calculating expected outcome."
       }
     ]
   }
