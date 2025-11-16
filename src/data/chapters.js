@@ -2072,6 +2072,11 @@ const chaptersData = {
         hint: "Even a network with just one hidden layer has amazing theoretical power if it's wide enough."
       }
     ]
+  },
+  'EFS-01': {
+    title: 'Strategy Building in Equity',
+    description: 'Comprehensive coverage of trading system development, moving average strategies, P&L analysis, back-testing, position management, and derivatives-based market analysis using OI, COC, and delivery volume.',
+    questions: []
   }
 };
 
