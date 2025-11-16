@@ -1316,6 +1316,762 @@ const chaptersData = {
         hint: "If one feature ranges 0-1 and another 0-1000, which dominates distance?"
       }
     ]
+  },
+  'MLT-03': {
+    title: 'Machine Learning III - Neural Networks',
+    description: 'Deep dive into neural networks: architecture, activation functions, backpropagation, optimization, and advanced concepts.',
+    questions: [
+      {
+        id: 1,
+        question: "What is a neural network?",
+        options: [
+          "A biological system in the human brain",
+          "A computational model inspired by biological neurons that learns patterns from data",
+          "A type of decision tree algorithm",
+          "A statistical method for linear regression"
+        ],
+        correct: 1,
+        explanation: "A neural network is a computational model inspired by the structure and function of biological neurons in the brain. It consists of interconnected nodes (neurons) organized in layers that can learn complex patterns from data through training. While inspired by biology, it's a mathematical/computational construct, not a biological system, decision tree, or simple regression method.",
+        difficulty: "Basic",
+        concept: "Neural Network Fundamentals",
+        hint: "Think about what makes neural networks different from traditional algorithms - they mimic how the brain processes information."
+      },
+      {
+        id: 2,
+        question: "What are the three main types of layers in a feedforward neural network?",
+        options: [
+          "Beginning, middle, and end layers",
+          "Input, hidden, and output layers",
+          "Data, processing, and result layers",
+          "Source, transform, and destination layers"
+        ],
+        correct: 1,
+        explanation: "Feedforward neural networks consist of: (1) Input layer - receives the raw features/data, (2) Hidden layer(s) - perform computations and extract patterns, and (3) Output layer - produces the final prediction. Information flows forward from input through hidden layers to output without cycles. The number of hidden layers determines network depth.",
+        difficulty: "Basic",
+        concept: "Network Architecture",
+        hint: "What do you call the layer that receives data, the layers that process it, and the layer that gives the answer?"
+      },
+      {
+        id: 3,
+        question: "What is an activation function in a neural network?",
+        options: [
+          "A function that initializes the weights",
+          "A non-linear function applied to neuron outputs to introduce non-linearity",
+          "A function that calculates the learning rate",
+          "A function that determines the number of layers"
+        ],
+        correct: 1,
+        explanation: "An activation function is a non-linear function applied to the weighted sum of inputs at each neuron. It introduces non-linearity into the network, allowing it to learn complex patterns that can't be captured by linear combinations alone. Common examples include ReLU, sigmoid, and tanh. Without activation functions, even deep networks would behave like linear models.",
+        difficulty: "Basic",
+        concept: "Activation Functions",
+        hint: "It's what allows neural networks to learn non-linear relationships in data."
+      },
+      {
+        id: 4,
+        question: "What is the purpose of backpropagation in neural networks?",
+        options: [
+          "To initialize weights randomly",
+          "To calculate gradients and update weights by propagating errors backward",
+          "To add more layers to the network",
+          "To normalize the input data"
+        ],
+        correct: 1,
+        explanation: "Backpropagation (backward propagation of errors) is the algorithm used to train neural networks. It calculates the gradient of the loss function with respect to each weight by propagating the error backward from the output layer through hidden layers using the chain rule. These gradients are then used to update weights via gradient descent to minimize the loss.",
+        difficulty: "Basic",
+        concept: "Training Process",
+        hint: "The name tells you - it involves moving backward through the network to update something."
+      },
+      {
+        id: 5,
+        question: "Which activation function is most commonly used in hidden layers of modern deep neural networks?",
+        options: [
+          "Sigmoid",
+          "Tanh",
+          "ReLU (Rectified Linear Unit)",
+          "Linear"
+        ],
+        correct: 2,
+        explanation: "ReLU (f(x) = max(0, x)) has become the default choice for hidden layers because: (1) it's computationally efficient, (2) it mitigates the vanishing gradient problem that affects sigmoid/tanh, (3) it provides sparse activation, and (4) it empirically works well. Sigmoid/tanh are still used in specific contexts (e.g., output layers for binary classification), but ReLU dominates hidden layers.",
+        difficulty: "Basic",
+        concept: "Activation Functions",
+        hint: "This function simply outputs the input if positive, zero otherwise."
+      },
+      {
+        id: 6,
+        question: "What is the vanishing gradient problem?",
+        options: [
+          "When gradients become too large and cause overflow",
+          "When gradients become very small during backpropagation, making learning slow or stop",
+          "When the network has too few parameters",
+          "When the learning rate is set too high"
+        ],
+        correct: 1,
+        explanation: "The vanishing gradient problem occurs when gradients become extremely small as they're propagated backward through many layers, especially with sigmoid/tanh activations whose derivatives are always < 1. Multiplying many small numbers makes gradients exponentially smaller, causing weights in early layers to update very slowly or not at all. ReLU and other modern techniques help mitigate this.",
+        difficulty: "Intermediate",
+        concept: "Training Challenges",
+        hint: "The gradients get smaller and smaller as they move backward, eventually almost disappearing."
+      },
+      {
+        id: 7,
+        question: "What is the difference between a perceptron and a multi-layer neural network?",
+        options: [
+          "A perceptron has only one layer and can only learn linear decision boundaries",
+          "A perceptron is always more accurate",
+          "A perceptron uses different activation functions",
+          "There is no difference"
+        ],
+        correct: 0,
+        explanation: "A perceptron is a single-layer neural network (just input and output layers) that can only learn linearly separable patterns - it finds a linear decision boundary. Multi-layer networks (MLPs) with hidden layers and non-linear activations can learn non-linear decision boundaries and solve complex problems like XOR that perceptrons cannot. Perceptrons are a historical foundation but limited.",
+        difficulty: "Intermediate",
+        concept: "Network Architecture",
+        hint: "How many layers does each have, and what types of problems can they solve?"
+      },
+      {
+        id: 8,
+        question: "In a neural network, what does the term 'epoch' refer to?",
+        options: [
+          "One forward pass through the network",
+          "One complete pass through the entire training dataset",
+          "One weight update",
+          "One batch of data"
+        ],
+        correct: 1,
+        explanation: "An epoch is one complete pass through the entire training dataset. During one epoch, the network sees every training example once. Training typically involves multiple epochs (e.g., 10, 100, or more) to allow the network to learn patterns gradually. One forward pass is just for one example/batch, and many weight updates occur per epoch (depending on batch size).",
+        difficulty: "Basic",
+        concept: "Training Process",
+        hint: "It's a complete cycle through all your training data."
+      },
+      {
+        id: 9,
+        question: "What is the purpose of a bias term in a neuron?",
+        options: [
+          "To increase computational complexity",
+          "To allow the activation function to shift left or right, improving model flexibility",
+          "To reduce overfitting",
+          "To normalize the weights"
+        ],
+        correct: 1,
+        explanation: "The bias term allows the neuron's activation function to shift horizontally. For example, z = wx + b where b is bias. Without bias, the function always passes through the origin. Bias provides flexibility for the neuron to activate at different thresholds, similar to an intercept in linear regression. This doesn't directly relate to overfitting, normalization, or complexity.",
+        difficulty: "Intermediate",
+        concept: "Neural Network Components",
+        hint: "Think of it like the intercept term in linear regression - it shifts the function."
+      },
+      {
+        id: 10,
+        question: "What is dropout in neural networks?",
+        options: [
+          "Removing entire layers from the network",
+          "Randomly setting a fraction of neurons to zero during training to prevent overfitting",
+          "Stopping training when validation loss increases",
+          "Removing outliers from the dataset"
+        ],
+        correct: 1,
+        explanation: "Dropout is a regularization technique where during each training iteration, random neurons (and their connections) are temporarily 'dropped out' (set to zero) with probability p (e.g., 0.5). This prevents neurons from co-adapting too much and forces the network to learn robust features. At test time, all neurons are active but outputs are scaled. It effectively trains an ensemble of networks.",
+        difficulty: "Intermediate",
+        concept: "Regularization Techniques",
+        hint: "It randomly ignores some neurons during training to make the network more robust."
+      },
+      {
+        id: 11,
+        question: "What is the softmax function used for in neural networks?",
+        options: [
+          "To normalize inputs before training",
+          "To convert raw output scores into probabilities for multi-class classification",
+          "To calculate the loss function",
+          "To initialize weights"
+        ],
+        correct: 1,
+        explanation: "Softmax transforms a vector of raw scores (logits) into probabilities that sum to 1, making it ideal for multi-class classification output layers. For K classes, softmax(z_i) = e^(z_i) / Σe^(z_j) for all j. Each output represents the probability of that class. It emphasizes the largest values and suppresses smaller ones. It's not for input normalization, loss calculation, or initialization.",
+        difficulty: "Intermediate",
+        concept: "Activation Functions",
+        hint: "It turns outputs into probabilities that add up to 100%."
+      },
+      {
+        id: 12,
+        question: "What is the main advantage of using mini-batch gradient descent over full batch gradient descent?",
+        options: [
+          "It always converges faster",
+          "It balances computational efficiency with stable convergence and fits in memory",
+          "It requires less data",
+          "It eliminates the need for regularization"
+        ],
+        correct: 1,
+        explanation: "Mini-batch gradient descent (using batches of 32, 64, 128, etc. samples) offers: (1) computational efficiency - can leverage vectorization and parallelization, (2) memory efficiency - full batch may not fit in GPU memory, (3) more frequent updates than full batch, (4) noise in gradients helps escape local minima, (5) better generalization. It balances the stability of full batch with the speed of stochastic (batch size=1).",
+        difficulty: "Intermediate",
+        concept: "Optimization Techniques",
+        hint: "Think about the tradeoff between processing all data at once versus one sample at a time."
+      },
+      {
+        id: 13,
+        question: "What does it mean when a neural network is 'overfitting'?",
+        options: [
+          "The model performs well on training data but poorly on test/validation data",
+          "The model performs poorly on both training and test data",
+          "The model has too few parameters",
+          "The learning rate is too low"
+        ],
+        correct: 0,
+        explanation: "Overfitting occurs when a model learns the training data too well, including noise and specific patterns that don't generalize. The model has high training accuracy but low test/validation accuracy. It memorizes rather than learns general patterns. Solutions include: regularization (L1/L2, dropout), more data, early stopping, or simpler models. Low test accuracy despite high training accuracy is the key symptom.",
+        difficulty: "Basic",
+        concept: "Model Evaluation",
+        hint: "The model memorizes the training data instead of learning general patterns."
+      },
+      {
+        id: 14,
+        question: "What is the purpose of weight initialization in neural networks?",
+        options: [
+          "To make all weights equal to 1",
+          "To set weights to small random values to break symmetry and enable learning",
+          "To copy weights from another model",
+          "To set all weights to zero"
+        ],
+        correct: 1,
+        explanation: "Proper weight initialization is crucial for effective training: (1) Random initialization breaks symmetry - if all weights are identical, neurons in the same layer will always compute the same output and gradients, (2) Small values prevent initial saturation of activations, (3) Specific schemes (Xavier, He) account for layer sizes and activation functions. Setting weights to zero or all the same prevents learning.",
+        difficulty: "Intermediate",
+        concept: "Training Process",
+        hint: "Weights need to start different from each other but not too large - why?"
+      },
+      {
+        id: 15,
+        question: "What is a convolutional neural network (CNN) primarily used for?",
+        options: [
+          "Text classification only",
+          "Image and spatial data processing",
+          "Time series forecasting only",
+          "Database management"
+        ],
+        correct: 1,
+        explanation: "CNNs are specifically designed for processing grid-like data, especially images. They use convolutional layers that apply filters to detect local patterns (edges, textures, shapes) and preserve spatial relationships. Key features include: parameter sharing, translation invariance, and hierarchical feature learning. While CNNs can be adapted for other domains (1D for sequences), they excel at image-related tasks: classification, detection, segmentation.",
+        difficulty: "Basic",
+        concept: "Network Architectures",
+        hint: "Think about what type of data has spatial structure and local patterns."
+      },
+      {
+        id: 16,
+        question: "In backpropagation, what mathematical concept is primarily used to calculate gradients?",
+        options: [
+          "Integration",
+          "Chain rule of calculus",
+          "Fourier transform",
+          "Matrix inversion"
+        ],
+        correct: 1,
+        explanation: "Backpropagation relies fundamentally on the chain rule of calculus to compute gradients. Since neural networks are compositions of functions (layers), the chain rule allows us to calculate how the loss changes with respect to weights in any layer by multiplying partial derivatives backward through the network: ∂L/∂w = ∂L/∂a × ∂a/∂z × ∂z/∂w. This is what makes training deep networks possible.",
+        difficulty: "Intermediate",
+        concept: "Training Process",
+        hint: "It's a calculus rule for finding derivatives of composed functions."
+      },
+      {
+        id: 17,
+        question: "What is the difference between sigmoid and ReLU activation functions?",
+        options: [
+          "Sigmoid outputs between 0-1, ReLU outputs 0 for negative values and x for positive",
+          "ReLU is always better than sigmoid",
+          "Sigmoid is only used in CNNs",
+          "They are exactly the same"
+        ],
+        correct: 0,
+        explanation: "Sigmoid: σ(x) = 1/(1+e^(-x)), outputs values between 0 and 1, smooth gradient everywhere, but suffers from vanishing gradients and is computationally expensive. ReLU: f(x) = max(0,x), outputs 0 for negative inputs and x for positive, simple and efficient, mitigates vanishing gradients, but can suffer from 'dying ReLU'. Each has appropriate use cases - sigmoid for binary classification output, ReLU for hidden layers.",
+        difficulty: "Intermediate",
+        concept: "Activation Functions",
+        hint: "Compare their mathematical definitions and output ranges."
+      },
+      {
+        id: 18,
+        question: "What is the purpose of pooling layers in CNNs?",
+        options: [
+          "To increase the spatial dimensions of feature maps",
+          "To reduce spatial dimensions, decrease computation, and provide translation invariance",
+          "To add more parameters to the model",
+          "To replace activation functions"
+        ],
+        correct: 1,
+        explanation: "Pooling layers (max pooling, average pooling) downsample feature maps by reducing spatial dimensions while retaining important information. Benefits: (1) reduces computation and memory, (2) provides translation invariance (small shifts in input don't affect output), (3) controls overfitting by reducing parameters, (4) increases receptive field. Max pooling takes the maximum value in each region; average pooling takes the mean.",
+        difficulty: "Intermediate",
+        concept: "CNN Components",
+        hint: "Think about compressing spatial information while keeping what's important."
+      },
+      {
+        id: 19,
+        question: "What is batch normalization?",
+        options: [
+          "Normalizing the input data before training",
+          "Normalizing activations within each mini-batch during training to stabilize learning",
+          "Normalizing the final output predictions",
+          "Normalizing the weight matrices"
+        ],
+        correct: 1,
+        explanation: "Batch normalization normalizes the activations of each layer for each mini-batch during training (typically after linear transformation, before activation). For each feature, it subtracts the batch mean and divides by batch standard deviation, then applies learned scale/shift parameters. Benefits: (1) faster training, (2) higher learning rates, (3) less sensitive to initialization, (4) regularization effect. It doesn't normalize inputs or outputs directly.",
+        difficulty: "Advanced",
+        concept: "Optimization Techniques",
+        hint: "It normalizes the data flowing through the network during training."
+      },
+      {
+        id: 20,
+        question: "What is a recurrent neural network (RNN) best suited for?",
+        options: [
+          "Static images",
+          "Sequential data like time series or text where order matters",
+          "Clustering problems",
+          "Binary classification only"
+        ],
+        correct: 1,
+        explanation: "RNNs are designed for sequential data where the order of inputs matters and there are temporal dependencies. They maintain a hidden state that carries information from previous time steps. Applications include: time series forecasting, natural language processing, speech recognition, video analysis. Unlike feedforward networks, RNNs have recurrent connections that create memory. They're not ideal for static images (use CNNs) or clustering (use unsupervised methods).",
+        difficulty: "Basic",
+        concept: "Network Architectures",
+        hint: "What type of data has an order or sequence that matters?"
+      },
+      {
+        id: 21,
+        question: "What is the exploding gradient problem?",
+        options: [
+          "When the dataset is too large",
+          "When gradients become very large, causing unstable training and weight updates",
+          "When the learning rate is too small",
+          "When there are too many layers"
+        ],
+        correct: 1,
+        explanation: "The exploding gradient problem occurs when gradients become very large during backpropagation, especially in deep networks or RNNs with long sequences. Large gradients cause unstable training with wild weight updates, NaN values, and divergence. Solutions include: gradient clipping (capping maximum gradient value), careful weight initialization, batch normalization, and using better architectures (e.g., LSTMs instead of vanilla RNNs).",
+        difficulty: "Intermediate",
+        concept: "Training Challenges",
+        hint: "It's the opposite of vanishing gradients - gradients get too big."
+      },
+      {
+        id: 22,
+        question: "What is transfer learning in the context of neural networks?",
+        options: [
+          "Transferring data between servers",
+          "Using a pre-trained network as a starting point for a new but related task",
+          "Transferring weights to a different programming language",
+          "Converting neural networks to decision trees"
+        ],
+        correct: 1,
+        explanation: "Transfer learning involves taking a neural network trained on one task (e.g., ImageNet classification) and adapting it to a new related task (e.g., medical image classification). Typically, you freeze early layers (which learn general features like edges) and fine-tune later layers (which learn task-specific features). Benefits: requires less data, faster training, often better performance. Especially valuable when target task has limited data.",
+        difficulty: "Intermediate",
+        concept: "Training Strategies",
+        hint: "You're reusing knowledge learned from one problem to solve a similar problem."
+      },
+      {
+        id: 23,
+        question: "What is the purpose of the learning rate in neural network training?",
+        options: [
+          "To determine the number of epochs",
+          "To control how much weights are updated in each step of gradient descent",
+          "To initialize the weights",
+          "To count the number of neurons"
+        ],
+        correct: 1,
+        explanation: "The learning rate (α or η) controls the size of weight updates during training: w_new = w_old - α × gradient. Too high: unstable training, oscillations, divergence. Too low: very slow training, may get stuck in local minima. It's one of the most important hyperparameters. Modern optimizers (Adam, RMSprop) use adaptive learning rates. Learning rate schedules can decrease it during training.",
+        difficulty: "Basic",
+        concept: "Training Process",
+        hint: "It determines how big a step you take when updating weights."
+      },
+      {
+        id: 24,
+        question: "What is an autoencoder?",
+        options: [
+          "A network that encrypts data",
+          "A network that learns to compress and reconstruct input data, useful for dimensionality reduction",
+          "A network that only works with text",
+          "A network that converts images to text"
+        ],
+        correct: 1,
+        explanation: "An autoencoder is an unsupervised neural network trained to reconstruct its input. It has an encoder (compresses input to lower-dimensional representation/bottleneck) and decoder (reconstructs from bottleneck). The bottleneck forces learning of compressed features. Uses: dimensionality reduction, feature learning, denoising, anomaly detection, generative modeling. It's not for encryption, text-specific, or image-to-text conversion.",
+        difficulty: "Advanced",
+        concept: "Network Architectures",
+        hint: "It squeezes data down and then tries to expand it back to the original."
+      },
+      {
+        id: 25,
+        question: "What is gradient descent?",
+        options: [
+          "A method to increase the loss function",
+          "An optimization algorithm that iteratively adjusts weights to minimize the loss function",
+          "A technique to add more layers",
+          "A way to visualize neural networks"
+        ],
+        correct: 1,
+        explanation: "Gradient descent is an iterative optimization algorithm used to minimize the loss function by adjusting weights in the direction of steepest descent. It calculates the gradient (partial derivatives) of the loss with respect to weights and updates: w = w - α × ∇L. Variants include: batch GD (all data), stochastic GD (one sample), mini-batch GD (batches). It's the foundation of neural network training.",
+        difficulty: "Basic",
+        concept: "Optimization Techniques",
+        hint: "It's like walking downhill to find the lowest point - following the slope."
+      },
+      {
+        id: 26,
+        question: "What is the difference between L1 and L2 regularization?",
+        options: [
+          "L1 adds sum of absolute weights, L2 adds sum of squared weights to the loss",
+          "L1 is always better than L2",
+          "L2 can only be used with CNNs",
+          "They are the same thing"
+        ],
+        correct: 0,
+        explanation: "L1 regularization (Lasso) adds λΣ|w_i| to the loss, encouraging sparsity (many weights become exactly 0), useful for feature selection. L2 regularization (Ridge) adds λΣw_i² to the loss, encouraging small weights but rarely exactly 0, generally preferred for neural networks. L2 is differentiable everywhere. Both prevent overfitting by penalizing large weights. Neither is universally better; choice depends on the problem.",
+        difficulty: "Advanced",
+        concept: "Regularization Techniques",
+        hint: "One uses absolute values, the other uses squares - what effect does this have?"
+      },
+      {
+        id: 27,
+        question: "What is the purpose of the validation set in neural network training?",
+        options: [
+          "To train the model",
+          "To tune hyperparameters and monitor overfitting without touching the test set",
+          "To replace the test set",
+          "To initialize weights"
+        ],
+        correct: 1,
+        explanation: "The validation set is used during training to: (1) tune hyperparameters (learning rate, architecture, regularization), (2) monitor for overfitting by comparing training vs validation performance, (3) implement early stopping, (4) select the best model checkpoint. The test set remains completely unseen until final evaluation. Training set trains the model, validation set guides hyperparameter choices, test set provides unbiased performance estimate.",
+        difficulty: "Intermediate",
+        concept: "Model Evaluation",
+        hint: "It's the data you check during training to make decisions without contaminating your final test."
+      },
+      {
+        id: 28,
+        question: "What is a loss function in neural networks?",
+        options: [
+          "A function that measures how well the network performs",
+          "A function that quantifies the error between predictions and true values that we want to minimize",
+          "A function that adds layers to the network",
+          "A function that visualizes the network"
+        ],
+        correct: 1,
+        explanation: "The loss function (or cost function) quantifies how wrong the model's predictions are compared to the true values. It's what we minimize during training. Examples: Mean Squared Error (MSE) for regression, Cross-Entropy for classification. The choice of loss function depends on the task. Gradient descent uses the loss function's gradient to update weights. Lower loss = better predictions.",
+        difficulty: "Basic",
+        concept: "Training Process",
+        hint: "It's the 'score' that tells the network how badly it's doing so it can improve."
+      },
+      {
+        id: 29,
+        question: "What is an LSTM (Long Short-Term Memory) network?",
+        options: [
+          "A type of CNN for images",
+          "A type of RNN designed to handle long-term dependencies and avoid vanishing gradients",
+          "A data preprocessing technique",
+          "A clustering algorithm"
+        ],
+        correct: 1,
+        explanation: "LSTM is a special RNN architecture designed to handle long-term dependencies in sequential data. It has a cell state and gates (forget, input, output) that control information flow, allowing it to selectively remember or forget information over long sequences. This solves the vanishing gradient problem that plagues vanilla RNNs. Applications: language modeling, machine translation, speech recognition, time series. Not for images (use CNNs) or clustering.",
+        difficulty: "Advanced",
+        concept: "Network Architectures",
+        hint: "It's an RNN with a memory mechanism to remember important things from the distant past."
+      },
+      {
+        id: 30,
+        question: "What is early stopping?",
+        options: [
+          "Stopping training after exactly 10 epochs",
+          "Stopping training when validation performance stops improving to prevent overfitting",
+          "Stopping training when loss becomes zero",
+          "Never stopping training"
+        ],
+        correct: 1,
+        explanation: "Early stopping is a regularization technique that stops training when validation loss/error stops improving for a specified number of epochs (patience). Training loss typically keeps decreasing, but validation loss may start increasing (overfitting). By stopping when validation performance plateaus or worsens, we prevent overfitting and save computation. The best model (lowest validation loss) is typically saved during training.",
+        difficulty: "Intermediate",
+        concept: "Regularization Techniques",
+        hint: "You stop when the model stops getting better on data it hasn't trained on."
+      },
+      {
+        id: 31,
+        question: "What is the purpose of data augmentation in training neural networks?",
+        options: [
+          "To delete data from the training set",
+          "To artificially increase training data size by creating modified versions of existing data",
+          "To reduce the size of the dataset",
+          "To normalize the data"
+        ],
+        correct: 1,
+        explanation: "Data augmentation artificially expands the training set by applying transformations that preserve labels but create variations. For images: rotations, flips, crops, color changes, noise. For text: synonym replacement, back-translation. Benefits: (1) increases effective dataset size, (2) improves generalization, (3) reduces overfitting, (4) makes model more robust to variations. Especially valuable when labeled data is limited.",
+        difficulty: "Intermediate",
+        concept: "Training Strategies",
+        hint: "Creating more training examples by slightly modifying existing ones."
+      },
+      {
+        id: 32,
+        question: "What is the Adam optimizer?",
+        options: [
+          "A type of neural network architecture",
+          "An adaptive learning rate optimization algorithm combining momentum and RMSprop",
+          "A loss function",
+          "A regularization technique"
+        ],
+        correct: 1,
+        explanation: "Adam (Adaptive Moment Estimation) is a popular optimization algorithm that combines the benefits of momentum (using exponentially decaying average of past gradients) and RMSprop (using exponentially decaying average of past squared gradients). It computes adaptive learning rates for each parameter. Benefits: works well with default hyperparameters, computationally efficient, suitable for large datasets/parameters. It's not an architecture, loss function, or regularization.",
+        difficulty: "Advanced",
+        concept: "Optimization Techniques",
+        hint: "It adapts the learning rate for each parameter based on past gradients."
+      },
+      {
+        id: 33,
+        question: "What is a hyperparameter in machine learning?",
+        options: [
+          "A parameter learned during training like weights",
+          "A parameter set before training that controls the learning process like learning rate",
+          "The output of the model",
+          "The input features"
+        ],
+        correct: 1,
+        explanation: "Hyperparameters are configuration settings set before training that control the learning process but are not learned from data. Examples: learning rate, number of layers, neurons per layer, batch size, number of epochs, regularization strength. In contrast, parameters (weights, biases) are learned during training. Hyperparameter tuning (grid search, random search, Bayesian optimization) is used to find optimal values.",
+        difficulty: "Basic",
+        concept: "Training Process",
+        hint: "These are the settings you choose before training starts, not the things the model learns."
+      },
+      {
+        id: 34,
+        question: "What is the purpose of the softmax activation in the output layer for multi-class classification?",
+        options: [
+          "To increase the number of classes",
+          "To convert logits into probabilities that sum to 1 across all classes",
+          "To reduce the number of parameters",
+          "To normalize the input features"
+        ],
+        correct: 1,
+        explanation: "Softmax in the output layer for K-class classification converts raw output scores (logits) into a probability distribution: softmax(z_i) = e^(z_i) / Σe^(z_j). The outputs are interpretable probabilities between 0 and 1 that sum to 1. The class with highest probability is the prediction. Typically used with cross-entropy loss. For binary classification, sigmoid is sufficient; for multi-class, softmax is standard.",
+        difficulty: "Intermediate",
+        concept: "Activation Functions",
+        hint: "It makes the outputs look like probabilities for each class."
+      },
+      {
+        id: 35,
+        question: "What is a fully connected layer (dense layer)?",
+        options: [
+          "A layer where some neurons are disconnected",
+          "A layer where every neuron is connected to every neuron in the previous layer",
+          "A layer used only in CNNs",
+          "A layer with no weights"
+        ],
+        correct: 1,
+        explanation: "A fully connected (FC) or dense layer is one where every neuron receives input from every neuron in the previous layer. If previous layer has n neurons and current layer has m neurons, there are n×m weights (plus m biases). FC layers are used to combine features learned by earlier layers. CNNs typically have convolutional layers followed by FC layers for final classification. They have many parameters.",
+        difficulty: "Basic",
+        concept: "Network Architecture",
+        hint: "Every neuron in this layer connects to all neurons in the previous layer."
+      },
+      {
+        id: 36,
+        question: "What is the difference between training accuracy and validation accuracy?",
+        options: [
+          "They are always equal",
+          "Training accuracy is on data the model was trained on; validation accuracy is on unseen data",
+          "Validation accuracy is always higher",
+          "Training accuracy is calculated differently"
+        ],
+        correct: 1,
+        explanation: "Training accuracy measures performance on the training set - data the model has seen and learned from. Validation accuracy measures performance on a held-out validation set the model hasn't trained on. Training accuracy typically increases during training. If training accuracy is much higher than validation accuracy, the model is overfitting. Good models have training and validation accuracy close together.",
+        difficulty: "Basic",
+        concept: "Model Evaluation",
+        hint: "One is tested on data the model learned from, the other on data it hasn't seen."
+      },
+      {
+        id: 37,
+        question: "What is gradient clipping?",
+        options: [
+          "Removing gradients that are too small",
+          "Capping gradients at a maximum threshold to prevent exploding gradients",
+          "Calculating gradients faster",
+          "Visualizing gradients"
+        ],
+        correct: 1,
+        explanation: "Gradient clipping prevents exploding gradients by capping gradient values at a threshold. Methods: (1) clip by value - if |gradient| > threshold, set it to ±threshold, (2) clip by norm - if ||gradient|| > threshold, scale down the entire gradient vector. Commonly used in RNNs where exploding gradients are problematic. It doesn't remove small gradients, speed up computation, or visualize anything.",
+        difficulty: "Advanced",
+        concept: "Training Techniques",
+        hint: "It puts a limit on how large gradients can get."
+      },
+      {
+        id: 38,
+        question: "What is a residual connection (skip connection) in neural networks?",
+        options: [
+          "A connection that deletes layers",
+          "A shortcut connection that allows gradients to flow directly across layers by adding input to output",
+          "A connection used only in RNNs",
+          "A connection that reduces the number of parameters"
+        ],
+        correct: 1,
+        explanation: "Residual connections (introduced in ResNet) add the input of a layer (or block) directly to its output: output = F(x) + x, where F(x) is the transformation. Benefits: (1) enables training very deep networks (100+ layers) by alleviating vanishing gradients, (2) creates direct paths for gradient flow, (3) allows network to learn identity mapping if needed. Not specific to RNNs; used in CNNs (ResNet), Transformers, etc.",
+        difficulty: "Advanced",
+        concept: "Network Architecture",
+        hint: "It creates a shortcut path that skips some layers."
+      },
+      {
+        id: 39,
+        question: "What is the purpose of one-hot encoding in neural network inputs?",
+        options: [
+          "To reduce the size of the input",
+          "To represent categorical variables as binary vectors for neural network processing",
+          "To normalize continuous features",
+          "To initialize weights"
+        ],
+        correct: 1,
+        explanation: "One-hot encoding converts categorical variables into binary vectors where one element is 1 and others are 0. For K categories, create K binary features. Example: ['red', 'blue', 'green'] becomes [1,0,0], [0,1,0], [0,0,1]. This allows neural networks to process categorical data since they work with numerical inputs. It doesn't reduce size (actually increases dimensionality), normalize continuous features, or relate to weight initialization.",
+        difficulty: "Basic",
+        concept: "Data Preprocessing",
+        hint: "It converts categories into a format neural networks can understand."
+      },
+      {
+        id: 40,
+        question: "What is the dying ReLU problem?",
+        options: [
+          "When ReLU makes training too fast",
+          "When neurons get stuck outputting zero and stop learning due to zero gradients",
+          "When ReLU is used in the output layer",
+          "When the learning rate is too high"
+        ],
+        correct: 1,
+        explanation: "The dying ReLU problem occurs when neurons always output zero (because inputs are always negative), causing zero gradients during backpropagation. These neurons stop learning and contribute nothing to the network - they're 'dead'. Causes: large negative bias, high learning rate, or poor initialization. Solutions: use Leaky ReLU (small slope for negative values), PReLU, or ELU instead of ReLU.",
+        difficulty: "Advanced",
+        concept: "Activation Functions",
+        hint: "Some neurons get stuck at zero output and can never recover."
+      },
+      {
+        id: 41,
+        question: "What is cross-entropy loss used for?",
+        options: [
+          "Only for regression problems",
+          "For classification problems to measure the difference between predicted and true probability distributions",
+          "To add more layers to the network",
+          "To initialize weights"
+        ],
+        correct: 1,
+        explanation: "Cross-entropy loss (also called log loss) measures the difference between two probability distributions - the predicted probabilities and true labels (one-hot encoded). For binary classification: -[y log(p) + (1-y)log(1-p)]. For multi-class: -Σy_i log(p_i). It penalizes confident wrong predictions heavily. Used with sigmoid (binary) or softmax (multi-class) output. MSE is for regression; cross-entropy is for classification.",
+        difficulty: "Intermediate",
+        concept: "Loss Functions",
+        hint: "It measures how different the predicted probabilities are from the true labels."
+      },
+      {
+        id: 42,
+        question: "What is the purpose of flattening in CNNs?",
+        options: [
+          "To increase the spatial dimensions",
+          "To convert multi-dimensional feature maps into a 1D vector for fully connected layers",
+          "To add more convolutional layers",
+          "To normalize the activations"
+        ],
+        correct: 1,
+        explanation: "Flattening converts the multi-dimensional output of convolutional/pooling layers (e.g., 7×7×64) into a 1D vector (e.g., 3136 elements) so it can be fed into fully connected layers for final classification. It's a reshaping operation with no learnable parameters. Typically occurs after the last pooling layer and before dense layers. It doesn't change the total number of elements, just rearranges them.",
+        difficulty: "Intermediate",
+        concept: "CNN Components",
+        hint: "It reshapes the 2D/3D data into a 1D array."
+      },
+      {
+        id: 43,
+        question: "What is the vanishing gradient problem particularly problematic for?",
+        options: [
+          "Shallow networks with 1-2 layers",
+          "Deep networks and RNNs with many layers/time steps",
+          "Networks with too few parameters",
+          "Networks trained on small datasets"
+        ],
+        correct: 1,
+        explanation: "Vanishing gradients are especially problematic for: (1) Deep networks - gradients get exponentially smaller as they backpropagate through many layers, causing early layers to learn very slowly, (2) RNNs processing long sequences - gradients vanish over many time steps, preventing learning of long-term dependencies. Solutions include: ReLU activations, residual connections, LSTMs/GRUs, batch normalization, and careful initialization.",
+        difficulty: "Intermediate",
+        concept: "Training Challenges",
+        hint: "The more layers or time steps the gradient has to travel through, the worse this problem gets."
+      },
+      {
+        id: 44,
+        question: "What is the difference between a parameter and a hyperparameter?",
+        options: [
+          "There is no difference",
+          "Parameters are learned during training (weights/biases); hyperparameters are set before training (learning rate/architecture)",
+          "Hyperparameters are always more important",
+          "Parameters are only used in CNNs"
+        ],
+        correct: 1,
+        explanation: "Parameters are the internal variables of the model learned from training data through optimization - weights and biases. These define the model's predictions. Hyperparameters are external configuration settings chosen before training that control the learning process - learning rate, batch size, number of layers, neurons, epochs, regularization strength. Finding good hyperparameters often requires experimentation (hyperparameter tuning).",
+        difficulty: "Basic",
+        concept: "Training Process",
+        hint: "One is learned by the model, the other is chosen by you before training."
+      },
+      {
+        id: 45,
+        question: "What is meant by the 'depth' of a neural network?",
+        options: [
+          "The size of the training dataset",
+          "The number of layers in the network",
+          "The number of neurons in each layer",
+          "The number of parameters"
+        ],
+        correct: 1,
+        explanation: "Network depth refers to the number of layers from input to output. A network with input layer + 3 hidden layers + output layer has depth 5 (or 4 if counting only hidden+output). Deep networks (hence 'deep learning') have many layers allowing hierarchical feature learning - early layers learn simple features, later layers learn complex combinations. Shallow networks have 1-2 hidden layers. Depth is different from width (neurons per layer).",
+        difficulty: "Basic",
+        concept: "Network Architecture",
+        hint: "How many layers do you stack on top of each other?"
+      },
+      {
+        id: 46,
+        question: "What is the purpose of using multiple filters in a convolutional layer?",
+        options: [
+          "To slow down training",
+          "To detect different features/patterns in the input (edges, textures, shapes, etc.)",
+          "To reduce the number of parameters",
+          "To replace activation functions"
+        ],
+        correct: 1,
+        explanation: "Each filter (kernel) in a convolutional layer learns to detect a specific type of feature or pattern. Multiple filters allow detecting multiple different features at the same position: one filter might detect horizontal edges, another vertical edges, another specific textures or colors. The number of filters determines the depth of the output feature map. More filters = more features detected but more parameters and computation.",
+        difficulty: "Intermediate",
+        concept: "CNN Components",
+        hint: "Different filters specialize in recognizing different types of patterns."
+      },
+      {
+        id: 47,
+        question: "What is overfitting more likely to occur with?",
+        options: [
+          "Simple models and large datasets",
+          "Complex models with many parameters and small datasets",
+          "Any model regardless of complexity or data size",
+          "Only with linear regression"
+        ],
+        correct: 1,
+        explanation: "Overfitting is more likely when: (1) Model is too complex relative to the amount of training data (high capacity, many parameters), (2) Training data is limited, (3) Training for too many epochs, (4) No regularization. A complex model can memorize noise in small datasets. Solutions: more data, regularization (L1/L2, dropout), simpler model, early stopping, cross-validation. Simple models on large datasets are less prone to overfitting.",
+        difficulty: "Intermediate",
+        concept: "Model Evaluation",
+        hint: "When does a model have too much freedom to memorize instead of learning patterns?"
+      },
+      {
+        id: 48,
+        question: "What is the role of the output layer in a neural network?",
+        options: [
+          "To preprocess the input data",
+          "To produce the final predictions in the format required for the task",
+          "To increase the depth of the network",
+          "To store the training data"
+        ],
+        correct: 1,
+        explanation: "The output layer produces the final predictions in the format required by the task: (1) Binary classification - 1 neuron with sigmoid outputting probability, (2) Multi-class classification - K neurons with softmax outputting probability distribution, (3) Regression - 1+ neurons with linear/no activation outputting continuous values. The number of neurons and activation function in the output layer are determined by the problem type.",
+        difficulty: "Basic",
+        concept: "Network Architecture",
+        hint: "It's the last layer that gives you the answer you're looking for."
+      },
+      {
+        id: 49,
+        question: "What is the purpose of weight decay in neural networks?",
+        options: [
+          "To make weights increase during training",
+          "A form of L2 regularization that penalizes large weights to prevent overfitting",
+          "To speed up training",
+          "To initialize weights to zero"
+        ],
+        correct: 1,
+        explanation: "Weight decay is a regularization technique equivalent to L2 regularization that adds a penalty term to the loss proportional to the squared magnitude of weights: Loss_total = Loss_original + (λ/2)Σw². This encourages smaller weights, preventing the model from relying too heavily on any single feature, thus reducing overfitting. In practice, it's implemented as: w = w - α(gradient + λw), hence 'decay'. It doesn't speed training or initialize weights.",
+        difficulty: "Advanced",
+        concept: "Regularization Techniques",
+        hint: "It shrinks the weights a little bit each update to keep them from getting too large."
+      },
+      {
+        id: 50,
+        question: "What is the universal approximation theorem?",
+        options: [
+          "All neural networks perform equally well",
+          "A neural network with at least one hidden layer can approximate any continuous function given enough neurons",
+          "Neural networks can only approximate linear functions",
+          "Deep networks are not necessary"
+        ],
+        correct: 1,
+        explanation: "The universal approximation theorem states that a feedforward neural network with at least one hidden layer containing a sufficient number of neurons can approximate any continuous function on a compact subset to arbitrary precision (given appropriate activation functions like sigmoid or ReLU). However, this doesn't mean: (1) we can easily find the right weights, (2) shallow is better than deep (deep networks often need fewer neurons), or (3) all functions are equally easy to approximate.",
+        difficulty: "Advanced",
+        concept: "Neural Network Theory",
+        hint: "Even a network with just one hidden layer has amazing theoretical power if it's wide enough."
+      }
+    ]
   }
 };
 

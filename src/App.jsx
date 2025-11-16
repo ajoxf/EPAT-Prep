@@ -155,11 +155,11 @@ function App() {
   // Render Dashboard
   const renderDashboard = () => {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-8">
+      <div className="min-h-screen bg-gray-50 p-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold text-white mb-4">Quantitative Finance LMS</h1>
-            <p className="text-xl text-gray-300">Master your EPAT preparation with interactive learning</p>
+            <h1 className="text-5xl font-bold text-gray-900 mb-4">Quantitative Finance LMS</h1>
+            <p className="text-xl text-gray-600">Master your EPAT preparation with interactive learning</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -169,29 +169,29 @@ function App() {
               return (
                 <div
                   key={chapterId}
-                  className="bg-gray-800 rounded-xl shadow-2xl p-6 card-hover border border-gray-700"
+                  className="bg-white rounded-xl shadow-md p-6 card-hover border border-gray-200"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center">
-                      <BookOpen className="w-8 h-8 text-blue-400 mr-3" />
+                      <BookOpen className="w-8 h-8 text-blue-600 mr-3" />
                       <div>
-                        <h2 className="text-xl font-bold text-white">{chapter.title}</h2>
-                        <p className="text-sm text-gray-400">{chapterId}</p>
+                        <h2 className="text-xl font-bold text-gray-900">{chapter.title}</h2>
+                        <p className="text-sm text-gray-500">{chapterId}</p>
                       </div>
                     </div>
                   </div>
 
-                  <p className="text-gray-300 text-sm mb-4 line-clamp-2">{chapter.description}</p>
+                  <p className="text-gray-700 text-sm mb-4 line-clamp-2">{chapter.description}</p>
 
                   {/* Progress Stats */}
                   <div className="mb-4">
-                    <div className="flex justify-between text-sm text-gray-400 mb-2">
+                    <div className="flex justify-between text-sm text-gray-600 mb-2">
                       <span>Progress</span>
                       <span>{stats.answeredCount}/{stats.totalQuestions} questions</span>
                     </div>
                     <div className="progress-bar">
                       <div
-                        className="progress-fill bg-blue-500"
+                        className="progress-fill bg-blue-600"
                         style={{ width: `${(stats.answeredCount / stats.totalQuestions) * 100}%` }}
                       ></div>
                     </div>
@@ -199,16 +199,16 @@ function App() {
 
                   <div className="flex justify-between text-sm mb-4">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-green-400">{stats.correctCount}</div>
-                      <div className="text-gray-400">Correct</div>
+                      <div className="text-2xl font-bold text-green-600">{stats.correctCount}</div>
+                      <div className="text-gray-600">Correct</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-400">{stats.accuracy}%</div>
-                      <div className="text-gray-400">Accuracy</div>
+                      <div className="text-2xl font-bold text-blue-600">{stats.accuracy}%</div>
+                      <div className="text-gray-600">Accuracy</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-purple-400">{stats.totalQuestions}</div>
-                      <div className="text-gray-400">Total</div>
+                      <div className="text-2xl font-bold text-purple-600">{stats.totalQuestions}</div>
+                      <div className="text-gray-600">Total</div>
                     </div>
                   </div>
 
@@ -256,47 +256,47 @@ function App() {
     const userAnswer = isTestMode ? testAnswers[currentQuestionIndex] : selectedAnswer;
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-8">
+      <div className="min-h-screen bg-gray-50 p-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="bg-gray-800 rounded-xl shadow-2xl p-6 mb-6 border border-gray-700">
+          <div className="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-200">
             <div className="flex items-center justify-between mb-4">
               <button
                 onClick={returnToDashboard}
-                className="flex items-center text-gray-300 hover:text-white transition-colors"
+                className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
               >
                 <Home className="w-5 h-5 mr-2" />
                 Dashboard
               </button>
               <div className="flex items-center space-x-4">
-                <span className="badge badge-{question.difficulty.toLowerCase()}">{question.difficulty}</span>
+                <span className={`badge badge-${question.difficulty.toLowerCase()}`}>{question.difficulty}</span>
                 <button
                   onClick={toggleFlag}
                   className={`p-2 rounded-lg transition-colors ${
-                    isQuestionFlagged() ? 'bg-yellow-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    isQuestionFlagged() ? 'bg-yellow-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
                   <Flag className="w-5 h-5" />
                 </button>
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-white">{chapter.title}</h2>
-            <p className="text-gray-400 mt-2">
+            <h2 className="text-2xl font-bold text-gray-900">{chapter.title}</h2>
+            <p className="text-gray-600 mt-2">
               Question {currentQuestionIndex + 1} of {chapter.questions.length}
             </p>
             <div className="progress-bar mt-4">
               <div
-                className="progress-fill bg-blue-500"
+                className="progress-fill bg-blue-600"
                 style={{ width: `${((currentQuestionIndex + 1) / chapter.questions.length) * 100}%` }}
               ></div>
             </div>
           </div>
 
           {/* Question */}
-          <div className="bg-gray-800 rounded-xl shadow-2xl p-8 mb-6 border border-gray-700 fade-in">
+          <div className="bg-white rounded-xl shadow-md p-8 mb-6 border border-gray-200 fade-in">
             <div className="mb-6">
               <div className="flex items-start justify-between">
-                <h3 className="text-2xl font-semibold text-white mb-6">{question.question}</h3>
+                <h3 className="text-2xl font-semibold text-gray-900 mb-6">{question.question}</h3>
               </div>
 
               <div className="space-y-3">
@@ -330,10 +330,10 @@ function App() {
                       disabled={isDisabled}
                     >
                       <div className="flex items-center">
-                        <span className="font-semibold mr-3 text-gray-400">
+                        <span className="font-semibold mr-3 text-gray-500">
                           {String.fromCharCode(65 + index)}.
                         </span>
-                        <span className="text-white text-left">{option}</span>
+                        <span className="text-gray-900 text-left">{option}</span>
                       </div>
                     </button>
                   );
@@ -346,14 +346,14 @@ function App() {
               <div className="mt-6">
                 <button
                   onClick={() => setShowHint(!showHint)}
-                  className="flex items-center text-yellow-400 hover:text-yellow-300 transition-colors"
+                  className="flex items-center text-yellow-600 hover:text-yellow-700 transition-colors"
                 >
                   <Lightbulb className="w-5 h-5 mr-2" />
                   {showHint ? 'Hide Hint' : 'Show Hint'}
                 </button>
                 {showHint && (
-                  <div className="mt-3 p-4 bg-yellow-900 bg-opacity-30 border border-yellow-600 rounded-lg">
-                    <p className="text-yellow-100">{question.hint}</p>
+                  <div className="mt-3 p-4 bg-yellow-50 border border-yellow-300 rounded-lg">
+                    <p className="text-yellow-900">{question.hint}</p>
                   </div>
                 )}
               </div>
@@ -361,14 +361,14 @@ function App() {
 
             {/* Explanation */}
             {((showExplanation && !isTestMode) || (isTestMode && testSubmitted)) && (
-              <div className="mt-6 p-6 bg-blue-900 bg-opacity-30 border border-blue-600 rounded-lg fade-in">
+              <div className="mt-6 p-6 bg-blue-50 border border-blue-300 rounded-lg fade-in">
                 <div className="flex items-center mb-3">
-                  <CheckCircle className="w-6 h-6 text-blue-400 mr-2" />
-                  <h4 className="text-lg font-semibold text-white">Explanation</h4>
+                  <CheckCircle className="w-6 h-6 text-blue-600 mr-2" />
+                  <h4 className="text-lg font-semibold text-gray-900">Explanation</h4>
                 </div>
-                <p className="text-gray-200">{question.explanation}</p>
-                <div className="mt-4 pt-4 border-t border-blue-800">
-                  <p className="text-sm text-gray-400">
+                <p className="text-gray-700">{question.explanation}</p>
+                <div className="mt-4 pt-4 border-t border-blue-200">
+                  <p className="text-sm text-gray-600">
                     <span className="font-semibold">Concept:</span> {question.concept}
                   </p>
                 </div>
@@ -381,7 +381,7 @@ function App() {
             <button
               onClick={previousQuestion}
               disabled={currentQuestionIndex === 0}
-              className="flex items-center px-6 py-3 bg-gray-700 text-white rounded-lg font-semibold hover:bg-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ChevronLeft className="w-5 h-5 mr-2" />
               Previous
@@ -418,30 +418,30 @@ function App() {
 
           {/* Test Results */}
           {isTestMode && testSubmitted && (
-            <div className="mt-6 bg-gray-800 rounded-xl shadow-2xl p-6 border border-gray-700">
-              <h3 className="text-2xl font-bold text-white mb-4">Test Results</h3>
+            <div className="mt-6 bg-white rounded-xl shadow-md p-6 border border-gray-200">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Test Results</h3>
               <div className="grid grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-blue-900 bg-opacity-30 rounded-lg">
-                  <div className="text-3xl font-bold text-blue-400">
+                <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="text-3xl font-bold text-blue-600">
                     {Object.keys(testAnswers).length}
                   </div>
-                  <div className="text-gray-300">Answered</div>
+                  <div className="text-gray-600">Answered</div>
                 </div>
-                <div className="text-center p-4 bg-green-900 bg-opacity-30 rounded-lg">
-                  <div className="text-3xl font-bold text-green-400">
+                <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
+                  <div className="text-3xl font-bold text-green-600">
                     {chapter.questions.filter((q, i) => testAnswers[i] === q.correct).length}
                   </div>
-                  <div className="text-gray-300">Correct</div>
+                  <div className="text-gray-600">Correct</div>
                 </div>
-                <div className="text-center p-4 bg-purple-900 bg-opacity-30 rounded-lg">
-                  <div className="text-3xl font-bold text-purple-400">
+                <div className="text-center p-4 bg-purple-50 rounded-lg border border-purple-200">
+                  <div className="text-3xl font-bold text-purple-600">
                     {Math.round(
                       (chapter.questions.filter((q, i) => testAnswers[i] === q.correct).length /
                         Object.keys(testAnswers).length) *
                         100
                     )}%
                   </div>
-                  <div className="text-gray-300">Score</div>
+                  <div className="text-gray-600">Score</div>
                 </div>
               </div>
             </div>
