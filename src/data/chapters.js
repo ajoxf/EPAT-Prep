@@ -2076,7 +2076,23 @@ const chaptersData = {
   'EFS-01': {
     title: 'Strategy Building in Equity',
     description: 'Comprehensive coverage of trading system development, moving average strategies, P&L analysis, back-testing, position management, and derivatives-based market analysis using OI, COC, and delivery volume.',
-    questions: []
+    questions: [
+      {
+        id: 1,
+        question: "What are the essential components that define a complete trading system?",
+        options: [
+          "Only entry signals and stop loss",
+          "Entry point (what, when, how much to buy) and exit point (profit target and stop loss)",
+          "Just technical indicators and chart patterns",
+          "Market timing and leverage decisions only"
+        ],
+        correct: 1,
+        explanation: "A complete trading system requires both entry components (what to buy, when to buy, how much to buy through position management) and exit components (profit-taking price/time and stop loss). This comprehensive framework ensures disciplined trading decisions covering all critical aspects of trade execution and risk management.",
+        difficulty: "Basic",
+        concept: "Trading System Components",
+        hint: "Think about both getting into and getting out of trades systematically."
+      }
+    ]
   }
 };
 
