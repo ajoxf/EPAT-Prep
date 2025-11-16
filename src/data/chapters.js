@@ -2829,6 +2829,613 @@ const chaptersData = {
       hint: "Think about why documenting and reviewing your actual trading decisions helps improve future performance."
     }
   ]
+},
+
+  'EFS-03': {
+  title: 'Statistical Arbitrage',
+  description: 'Stationarity, cointegration, ADF testing, mean-reversion strategies, and pairs trading with risk management.',
+  questions: [
+    {
+      id: 1,
+      question: "What does stationarity mean in the context of a price series?",
+      options: [
+        "The price consistently increases over time",
+        "The series has constant mean and variance over time",
+        "The price exhibits random walk behavior",
+        "The series has high correlation with market indices"
+      ],
+      correct: 1,
+      explanation: "A stationary price series is one where statistical properties such as mean and variance remain constant over time. This is fundamental to mean-reversion strategies because if a series is stationary, deviations from the mean are expected to revert back. The first option describes a trend (non-stationary), the third option describes random walk (also non-stationary), and the fourth option relates to correlation, not stationarity.",
+      difficulty: "Basic",
+      concept: "Stationarity",
+      hint: "Think about what properties need to remain unchanged for mean-reversion to be a viable strategy."
+    },
+    {
+      id: 2,
+      question: "In the Augmented Dickey-Fuller (ADF) test, what is the null hypothesis?",
+      options: [
+        "The series is stationary",
+        "The series has no unit root",
+        "The series is non-stationary (has a unit root)",
+        "The series exhibits mean reversion"
+      ],
+      correct: 2,
+      explanation: "The null hypothesis (H₀) of the ADF test is λ = 0, which indicates the series is non-stationary and contains a unit root. The alternative hypothesis (Hₐ) is λ < 0, indicating stationarity. To conclude stationarity, we must reject the null hypothesis by having a t-statistic less than the critical value. This is a critical distinction because we're testing against non-stationarity, not for stationarity directly.",
+      difficulty: "Intermediate",
+      concept: "Augmented Dickey-Fuller Test",
+      hint: "In hypothesis testing, we typically test against what we don't want to prove and try to reject it."
+    },
+    {
+      id: 3,
+      question: "If the ADF test yields a t-statistic of -3.05 and the critical value at 95% confidence is -2.87, what can you conclude?",
+      options: [
+        "The series is non-stationary",
+        "The series is stationary with 95% confidence",
+        "The test is inconclusive",
+        "The series requires additional testing"
+      ],
+      correct: 1,
+      explanation: "Since the t-statistic (-3.05) is less than the critical value (-2.87), we reject the null hypothesis of non-stationarity and conclude the series is stationary with at least 95% confidence. In the ADF test, more negative values provide stronger evidence against the null hypothesis. The t-statistic of -3.05 is actually between the 95% (-2.87) and 99% (-3.44) critical values, so we can be confident at the 95% level but not quite at the 99% level.",
+      difficulty: "Intermediate",
+      concept: "Augmented Dickey-Fuller Test Interpretation",
+      hint: "Remember that for the ADF test, we need the t-statistic to be MORE negative than the critical value to reject non-stationarity."
+    },
+    {
+      id: 4,
+      question: "Which statement about random walk is correct?",
+      options: [
+        "Random walk is stationary",
+        "Random walk is non-stationary",
+        "Random walk always reverts to the mean",
+        "Random walk has constant variance"
+      ],
+      correct: 1,
+      explanation: "Random walk is NOT stationary because the variance increases over time and there is no tendency to revert to a mean level. In a random walk, each step is independent of previous steps, and the process can drift arbitrarily far from any starting point. This is why most stock prices follow a random walk and are not suitable for mean-reversion strategies without transformation. The variance of a random walk at time t is proportional to t.",
+      difficulty: "Basic",
+      concept: "Stationarity and Random Walk",
+      hint: "Consider whether a process where each step is random can maintain constant statistical properties over time."
+    },
+    {
+      id: 5,
+      question: "In a Bollinger bands mean-reversion strategy for a stationary series, when should you enter a long position?",
+      options: [
+        "When price crosses above the upper band",
+        "When price crosses below the lower band",
+        "When price crosses above the moving average",
+        "When price crosses below the moving average"
+      ],
+      correct: 1,
+      explanation: "In a mean-reversion strategy using Bollinger bands, you enter a long position when the price crosses below the lower band, expecting it to revert back to the mean. The lower band represents prices that are unusually low relative to recent history (mean - k*standard deviation), suggesting an oversold condition. Conversely, you would enter a short position when price crosses above the upper band. Exit signals occur when price reverts back toward or crosses the moving average.",
+      difficulty: "Intermediate",
+      concept: "Bollinger Bands Strategy",
+      hint: "Mean-reversion strategies involve buying low and selling high relative to recent average prices."
+    },
+    {
+      id: 6,
+      question: "What is the formula for calculating the lower Bollinger band in a mean-reversion strategy?",
+      options: [
+        "Moving Average + 0.5 × Moving Standard Deviation",
+        "Moving Average - 0.5 × Moving Standard Deviation",
+        "Moving Average × Moving Standard Deviation",
+        "Moving Average / Moving Standard Deviation"
+      ],
+      correct: 1,
+      explanation: "The lower Bollinger band is calculated as: Lower Band = Moving Average - k × Moving Standard Deviation, where k is typically 0.5 to 2 depending on the strategy. In the lecture example, k=0.5 was used. The upper band uses addition instead: Upper Band = Moving Average + k × Moving Standard Deviation. These bands create a channel around the moving average, with the width determined by the volatility (standard deviation) of the series.",
+      difficulty: "Intermediate",
+      concept: "Bollinger Bands Calculation",
+      hint: "The lower band should be below the moving average, representing prices that are unusually low."
+    },
+    {
+      id: 7,
+      question: "What does cointegration between two instruments mean?",
+      options: [
+        "The two instruments always move in the same direction",
+        "The spread between two instruments is stationary",
+        "The two instruments have perfect correlation",
+        "The two instruments have the same price"
+      ],
+      correct: 1,
+      explanation: "Two instruments are cointegrated when a linear combination of their prices (the spread) is stationary, even though each individual price series may be non-stationary. Mathematically, if Y - hedge_ratio × X is stationary, then Y and X are cointegrated. This is the foundation of pairs trading because the stationary spread exhibits mean-reversion properties. Cointegration is different from correlation - instruments can be cointegrated without moving together in the short term, and they can be correlated without being cointegrated.",
+      difficulty: "Intermediate",
+      concept: "Cointegration",
+      hint: "Focus on the statistical property of the difference between two prices rather than their individual movements."
+    },
+    {
+      id: 8,
+      question: "How do you test for cointegration between two instruments X and Y?",
+      options: [
+        "Calculate the correlation coefficient between X and Y",
+        "Perform linear regression of Y on X, then run ADF test on the spread",
+        "Compare the moving averages of X and Y",
+        "Calculate the difference Y - X and check if it equals zero"
+      ],
+      correct: 1,
+      explanation: "To test for cointegration: (1) Perform linear regression with Y as dependent variable and X as independent variable to find the hedge ratio, (2) Calculate the spread as: Spread = Y - hedge_ratio × X, (3) Run the ADF test on the spread to check if it's stationary. If the ADF test indicates stationarity (t-stat < critical value), the instruments are cointegrated. This process finds the optimal linear combination that produces a stationary spread. Simply calculating Y - X without the proper hedge ratio is unlikely to produce a stationary series.",
+      difficulty: "Advanced",
+      concept: "Cointegration Testing",
+      hint: "Cointegration testing involves finding the right combination of two series that produces stationarity, then testing that combination."
+    },
+    {
+      id: 9,
+      question: "What is the key difference between cointegration and correlation?",
+      options: [
+        "Cointegration measures short-term movement; correlation measures long-term relationships",
+        "Cointegration is about spread stationarity; correlation is about directional movement",
+        "They are the same concept with different names",
+        "Correlation is always stronger than cointegration"
+      ],
+      correct: 1,
+      explanation: "Cointegration refers to whether the spread between two instruments is stationary (long-term property), while correlation measures whether two instruments' returns move in the same or opposite directions (can be short-term or long-term). Two instruments can be cointegrated without being correlated (they might move in opposite directions but maintain a stable spread), and they can be correlated without being cointegrated (they move together but the spread drifts over time). For pairs trading, cointegration is more important than correlation.",
+      difficulty: "Intermediate",
+      concept: "Cointegration vs Correlation",
+      hint: "Think about the difference between prices moving together versus prices maintaining a stable relationship."
+    },
+    {
+      id: 10,
+      question: "In pairs trading with instruments X and Y where the spread = Y - 1.5×X, what positions should you take when you receive a 'buy' signal?",
+      options: [
+        "Buy Y and sell 1.5 units of X",
+        "Sell Y and buy 1.5 units of X",
+        "Buy both Y and X",
+        "Sell both Y and X"
+      ],
+      correct: 0,
+      explanation: "A 'buy' signal for the spread means the spread is below the lower threshold and expected to increase (revert to mean). Since Spread = Y - 1.5×X, to buy the spread you need to: Buy 1 unit of Y (increasing the spread) and Sell 1.5 units of X (also increasing the spread, since X is subtracted). This creates a long spread position. Conversely, a 'sell' signal would require selling Y and buying 1.5 units of X. The hedge ratio of 1.5 determines how many units of X to trade relative to Y.",
+      difficulty: "Advanced",
+      concept: "Pairs Trading Execution",
+      hint: "To 'buy the spread' means to take positions that will profit if the spread increases."
+    },
+    {
+      id: 11,
+      question: "Why is it difficult to find naturally occurring stationary price series?",
+      options: [
+        "Most price series exhibit trends or drift over time",
+        "Statistical tests are not accurate enough",
+        "Markets are too efficient",
+        "Computational limitations prevent proper analysis"
+      ],
+      correct: 0,
+      explanation: "Most financial price series are non-stationary because they exhibit trends, drift, or changing volatility over time. Stock prices, for example, typically follow random walks or have upward/downward trends driven by company growth, economic conditions, or market sentiment. This is why statistical arbitrage strategies often construct synthetic stationary series through pairs trading or other combinations, rather than trading single instruments. The lecture specifically notes 'Life is not easy! It is difficult to find naturally occurring price series which are stationary.'",
+      difficulty: "Basic",
+      concept: "Stationarity in Financial Markets",
+      hint: "Think about whether stock prices tend to stay around a constant level or tend to drift up or down over time."
+    },
+    {
+      id: 12,
+      question: "In the ADF test equation Δp(t) = λp(t-1) + μ + βt + α₁Δp(t-1) + ... + αₖΔp(t-k) + εₜ, what does λ represent?",
+      options: [
+        "The standard deviation of price changes",
+        "The regression coefficient testing for stationarity",
+        "The moving average parameter",
+        "The correlation coefficient"
+      ],
+      correct: 1,
+      explanation: "In the ADF test regression equation, λ (lambda) is the key regression coefficient that determines stationarity. If λ = 0 (null hypothesis), the series has a unit root and is non-stationary. If λ < 0 (alternative hypothesis), the series is stationary with mean-reverting behavior. The magnitude of λ indicates the speed of mean reversion - more negative values suggest faster reversion. The t-statistic for λ is compared to critical values to determine if we can reject the null hypothesis of non-stationarity.",
+      difficulty: "Advanced",
+      concept: "ADF Test Mathematics",
+      hint: "This coefficient determines whether changes in price depend on the current price level, indicating mean reversion."
+    },
+    {
+      id: 13,
+      question: "Which critical value should you use for the ADF test if you want 99% confidence that a series is stationary?",
+      options: [
+        "-2.56",
+        "-2.87",
+        "-3.44",
+        "-1.96"
+      ],
+      correct: 2,
+      explanation: "The critical values for the ADF test at different significance levels are: 10% → -2.56, 5% (95% confidence) → -2.87, and 1% (99% confidence) → -3.44. For 99% confidence that a series is stationary, the t-statistic must be less than -3.44. The more negative the required critical value, the higher the confidence level. These are one-tailed test values because we're only testing for stationarity (λ < 0), not for non-stationarity in the other direction.",
+      difficulty: "Basic",
+      concept: "ADF Test Critical Values",
+      hint: "Higher confidence levels require more extreme (more negative) critical values in the ADF test."
+    },
+    {
+      id: 14,
+      question: "What is the primary advantage of using ETFs or currency pairs for statistical arbitrage compared to individual stocks?",
+      options: [
+        "Higher returns",
+        "Lower transaction costs",
+        "More stable cointegration relationships",
+        "Greater liquidity"
+      ],
+      correct: 2,
+      explanation: "ETFs and currency pairs tend to have more stable cointegration relationships over time compared to individual stocks. The lecture explicitly states 'Stock pairs are quite unstable w.r.t. cointegration' and 'ETFs and currency pair are good candidates for pair trading.' This is because ETFs represent baskets of securities exposed to common economic factors, and currency pairs have fundamental economic relationships. Individual stocks can have company-specific events (earnings surprises, management changes, mergers) that break cointegration relationships unpredictably.",
+      difficulty: "Intermediate",
+      concept: "Pairs Selection",
+      hint: "Consider which type of instruments are less likely to have unexpected company-specific events that break their relationship."
+    },
+    {
+      id: 15,
+      question: "When selecting pairs for trading based on qualitative criteria for stocks, which of the following is MOST important?",
+      options: [
+        "Both stocks should be in the same sector",
+        "Both stocks should have the same stock price",
+        "Both stocks should have the same number of shares outstanding",
+        "Both stocks should have the same dividend yield"
+      ],
+      correct: 0,
+      explanation: "For qualitative stock pair selection, being in the same sector is most important because it ensures the stocks are exposed to similar economic factors, industry trends, and market conditions. The lecture lists qualitative selection criteria as: Same Sector, Similar Market Capitalization, and Similar Ratios. Additional factors like similar market cap and financial ratios help further, but sector alignment is fundamental. Having the same stock price, shares outstanding, or dividend yield is not relevant for cointegration - what matters is that the stocks respond similarly to common economic drivers.",
+      difficulty: "Intermediate",
+      concept: "Pairs Selection Criteria",
+      hint: "Think about what would make two companies' stock prices move based on similar fundamental factors."
+    },
+    {
+      id: 16,
+      question: "In the context of Bollinger bands strategy, how do you select the lookback period and band width parameters?",
+      options: [
+        "Use fixed values: 20-day lookback and 2 standard deviations",
+        "Optimize in the training set or use multiples of half-life",
+        "Always use the longest possible lookback period",
+        "Copy parameters from other successful traders"
+      ],
+      correct: 1,
+      explanation: "The lecture asks 'How to select lookback period (5) and width of Bollinger bands (0.5)?' and provides two approaches: (1) Optimize in training set, or (2) Set lookback to some multiple of half-life. Half-life is the time it takes for a deviation to decay to half its original size in a mean-reverting process. Using optimization helps find parameters that historically worked well, while using half-life provides a theoretically grounded approach based on the actual mean-reversion speed. Fixed values or copying others' parameters ignores the specific characteristics of your instrument.",
+      difficulty: "Advanced",
+      concept: "Strategy Parameter Selection",
+      hint: "Good parameter selection should be based either on historical optimization or theoretical properties of the time series."
+    },
+    {
+      id: 17,
+      question: "What does 'forward fill' mean in the context of position management in Python pairs trading code?",
+      options: [
+        "Predict future prices using machine learning",
+        "Carry forward existing positions when no new signal is generated",
+        "Fill missing price data with future values",
+        "Calculate forward-looking returns"
+      ],
+      correct: 1,
+      explanation: "Forward fill (df.fillna(method='ffill')) carries forward an existing position to the next bar when no new entry or exit signal has been generated. For example, if you enter a long position on Day 1 and there's no exit signal on Days 2-5, you forward fill the position value of 1 through those days, maintaining the long position. The lecture shows: 'Carry forward an existing position, whenever the next bar's position has not been predetermined to be 0 or 1.' This prevents the position from disappearing between entry and exit signals.",
+      difficulty: "Intermediate",
+      concept: "Position Management in Python",
+      hint: "Think about what should happen to your position between the entry signal and exit signal."
+    },
+    {
+      id: 18,
+      question: "If two instruments have high positive correlation but are NOT cointegrated, what does this imply?",
+      options: [
+        "They are good candidates for pairs trading",
+        "Their spread is stationary",
+        "They move together but their spread may drift over time",
+        "The ADF test will show stationarity"
+      ],
+      correct: 2,
+      explanation: "High correlation means the instruments tend to move in the same direction, but lack of cointegration means the spread between them is non-stationary and can drift arbitrarily over time. The lecture provides an explicit example showing 'Correlation without Cointegration' where two series trend upward together (high correlation) but their spread keeps widening (non-stationary). Such pairs are NOT suitable for mean-reversion trading because the spread won't reliably revert to a constant mean. You could have temporary profits, but long-term risk of the spread continuing to diverge.",
+      difficulty: "Advanced",
+      concept: "Cointegration vs Correlation",
+      hint: "Consider whether prices moving together necessarily means their difference stays constant."
+    },
+    {
+      id: 19,
+      question: "What is the main risk that statistical arbitrage strategies face?",
+      options: [
+        "The spread may diverge instead of converging to the mean",
+        "Transaction costs are always too high",
+        "These strategies always lose money",
+        "Regulatory restrictions prevent execution"
+      ],
+      correct: 0,
+      explanation: "The lecture explicitly states: 'Statistical Arbitrage is not a risk-free strategy. Rather than converging, the spread can begin to diverge (drift apart). The spread picks up trend rather than mean-reverting and the cointegration is broken.' This is the fundamental risk - the historical mean-reverting relationship can break down, causing losses. An event affecting one instrument (earnings surprise, regulatory change, etc.) can trigger extreme spread movements. This is why the lecture emphasizes 'Strict risk management is required to handle adverse situations once the mean-reverting behavior is invalidated.'",
+      difficulty: "Intermediate",
+      concept: "Risk Management",
+      hint: "Think about what happens when the statistical relationship you're trading suddenly changes."
+    },
+    {
+      id: 20,
+      question: "Why is proper risk management critical in statistical arbitrage?",
+      options: [
+        "To maximize leverage",
+        "To handle situations when mean-reversion breaks down",
+        "To avoid paying taxes",
+        "To increase position sizes"
+      ],
+      correct: 1,
+      explanation: "Risk management is essential because cointegration relationships can break down unexpectedly, causing the spread to diverge rather than converge. The lecture states: 'An event in a security can trigger extreme movement in the spread' and 'Strict risk management is required to handle adverse situations once the mean-reverting behavior is invalidated.' Recommended practices include: defining strict stop-loss and profit targets before entering trades, allocating funds across different pair portfolios rather than concentrating in one pair, and potentially combining mean-reversion with momentum strategies.",
+      difficulty: "Intermediate",
+      concept: "Risk Management in Statistical Arbitrage",
+      hint: "Consider what protections you need when the statistical properties you're relying on suddenly change."
+    },
+    {
+      id: 21,
+      question: "What were the two main failures that led to Long-Term Capital Management's (LTCM) collapse?",
+      options: [
+        "Poor technology and slow execution",
+        "Over-reliance on backtesting and high leverage",
+        "Lack of trading experience and bad luck",
+        "Regulatory violations and fraud"
+      ],
+      correct: 1,
+      explanation: "The lecture identifies two critical mistakes by LTCM: (1) Over-reliance on backtesting - assuming the future would resemble the past, with their famous example of backtesting billions of arbitrage trades and observing the spread never widened more than a certain amount, treating it as a 'law of physics,' and (2) High leverage - taking excessive leverage without adequately considering the risk when their assumptions proved wrong. During the 1998 crisis, the spread widened to 3x their historical maximum, causing catastrophic losses that were magnified by their leverage.",
+      difficulty: "Intermediate",
+      concept: "Risk Management Lessons",
+      hint: "Think about what happens when you're highly confident in historical patterns and use borrowed money to bet on them."
+    },
+    {
+      id: 22,
+      question: "For the spread equation Y - m₁×X - m₂×Z for three instruments, how should you calculate the hedge ratios m₁ and m₂?",
+      options: [
+        "Set both equal to 1.0",
+        "Use multiple linear regression with Y as dependent variable",
+        "Calculate correlation between each pair",
+        "Use the average of the three instrument prices"
+      ],
+      correct: 1,
+      explanation: "To find the optimal hedge ratios for three instruments, you perform multiple linear regression with Y as the dependent variable and X and Z as independent variables. This regression will provide coefficients m₁ and m₂ that minimize the variance of the spread Y - m₁×X - m₂×Z. You then test if this spread is stationary using the ADF test. This is an extension of the two-instrument case where you used simple linear regression. The Johansen test is an alternative advanced method for finding cointegrating relationships among multiple instruments.",
+      difficulty: "Advanced",
+      concept: "Multi-Instrument Cointegration",
+      hint: "The same principle applies as with two instruments - use regression to find the combination that produces the most stationary spread."
+    },
+    {
+      id: 23,
+      question: "When implementing a pairs trading strategy in Python, what is the correct way to calculate the final combined positions?",
+      options: [
+        "positions = positions_long only",
+        "positions = positions_short only",
+        "positions = positions_long + positions_short",
+        "positions = positions_long - positions_short"
+      ],
+      correct: 2,
+      explanation: "The final positions are calculated as: df['positions'] = df.positions_long + df.positions_short. This works because long positions are represented as +1, short positions as -1, and no position as 0. At any given time, you're either long (+1+0=+1), short (0+(-1)=-1), or flat (0+0=0). You cannot be both long and short simultaneously in the same pair, so this addition correctly combines the signals. The subsequent PnL calculation uses this combined position: df['pnl'] = df.positions.shift(1) × df.prices_difference.",
+      difficulty: "Intermediate",
+      concept: "Pairs Trading Implementation",
+      hint: "Remember that long positions are positive values, short positions are negative, and no position is zero."
+    },
+    {
+      id: 24,
+      question: "In the mean-reversion strategy, why do we shift the positions by 1 period when calculating PnL?",
+      options: [
+        "To avoid look-ahead bias and ensure realistic execution",
+        "To smooth the equity curve",
+        "To increase the Sharpe ratio",
+        "Because Python requires it for the calculation"
+      ],
+      correct: 0,
+      explanation: "We use df.positions.shift(1) when calculating PnL to avoid look-ahead bias. This ensures that we only take positions AFTER receiving signals, not simultaneously with them. In reality, you receive a signal based on today's close, then execute the trade, and your position affects tomorrow's PnL, not today's. The code: df['pnl'] = df.positions.shift(1) × df.prices_difference correctly implements this by using yesterday's position to calculate today's profit/loss. Without the shift, you'd unrealistically assume perfect execution at the exact price that generated the signal.",
+      difficulty: "Advanced",
+      concept: "Backtesting Best Practices",
+      hint: "Consider the timing of when you receive a signal versus when you can actually execute a trade."
+    },
+    {
+      id: 25,
+      question: "What is the 'Sports Illustrated jinx' analogy used to illustrate?",
+      options: [
+        "The dangers of media attention in trading",
+        "The concept of mean reversion and regression to the mean",
+        "Why athletes make poor traders",
+        "The importance of magazine subscriptions"
+      ],
+      correct: 1,
+      explanation: "The 'Sports Illustrated jinx' illustrates mean reversion and regression to the mean. An athlete appears on the cover typically after exceptional performance (far above their mean), but subsequently tends to perform worse (reverting toward their true mean ability). This isn't a jinx but statistical reality - exceptional performances are often outliers that naturally regress toward average. The lecture uses this to introduce the concept that when a stationary series deviates significantly from its mean (like the athlete's exceptional performance), it's likely to revert back (like their subsequent normal performance).",
+      difficulty: "Basic",
+      concept: "Mean Reversion Concept",
+      hint: "Think about whether exceptional performances are sustainable or whether they're temporary deviations from normal."
+    },
+    {
+      id: 26,
+      question: "Which Python package contains the adfuller() function for performing the ADF test?",
+      options: [
+        "pandas",
+        "numpy",
+        "statsmodels.tsa.stattools",
+        "scipy.stats"
+      ],
+      correct: 2,
+      explanation: "The adfuller() function is found in the statsmodels.tsa.stattools package. The lecture specifically mentions: 'ADF test can be implemented in python using adfuller() function from the statsmodels.tsa.stattools package' and shows the import statement. The implementation would be: from statsmodels.tsa.stattools import adfuller, followed by adf = adfuller(data.Close, maxlag=1). The result includes the t-statistic in adf[0], which is compared to critical values to determine stationarity.",
+      difficulty: "Basic",
+      concept: "Python Implementation",
+      hint: "Look for a package focused on statistical models and time series analysis."
+    },
+    {
+      id: 27,
+      question: "What is the maxlag parameter in the adfuller() function used for?",
+      options: [
+        "Maximum number of instruments to test",
+        "Number of lagged difference terms to include for serial correlation",
+        "Maximum number of days to look back",
+        "Maximum number of iterations for the test"
+      ],
+      correct: 1,
+      explanation: "The maxlag parameter in adfuller(data.Close, maxlag=1) specifies the number of lagged difference terms to include in the ADF regression equation. The lecture notes 'Set maxlag = 1 (Assuming short-range serial correlation)' and mentions that 'To find optimal maxlag, use AIC/BIC' (Advanced topic). This parameter addresses autocorrelation in the residuals - if your data has short-range dependencies, you might need only maxlag=1, but longer-range dependencies might require higher values. The terms α₁Δp(t-1) + ... + αₖΔp(t-k) in the ADF equation represent these lagged differences.",
+      difficulty: "Advanced",
+      concept: "ADF Test Parameters",
+      hint: "This parameter relates to controlling for autocorrelation in the time series data."
+    },
+    {
+      id: 28,
+      question: "What does directional trading in statistical arbitrage focus on?",
+      options: [
+        "Relative value between multiple instruments",
+        "Single instrument price movements",
+        "Index arbitrage opportunities",
+        "Options pricing discrepancies"
+      ],
+      correct: 1,
+      explanation: "The lecture distinguishes two types of statistical arbitrage strategies: (1) Directional trading - dependent on single instrument (examples: Corn Futures, Gold Futures), and (2) Pairs trading, triplets and other cointegrated trading - relative value of 2, 3 or more instruments (example: Google vs. Facebook). Directional trading applies mean-reversion strategies to individual stationary instruments, while pairs trading exploits the relative pricing between cointegrated instruments. Most of the lecture focuses on pairs trading because finding naturally stationary individual instruments is difficult.",
+      difficulty: "Basic",
+      concept: "Types of Statistical Arbitrage",
+      hint: "Consider whether the strategy depends on one instrument's price or the relationship between multiple instruments."
+    },
+    {
+      id: 29,
+      question: "In the pairs trading example with EWA (Australia ETF) and EWC (Canada ETF), why might these be good candidates for cointegration?",
+      options: [
+        "They have identical stock holdings",
+        "They track the same index",
+        "They are exposed to similar commodity-driven economic factors",
+        "They always have the same price"
+      ],
+      correct: 2,
+      explanation: "EWA (iShares MSCI Australia ETF) and EWC (iShares MSCI Canada ETF) are good cointegration candidates because both countries' economies are significantly influenced by commodity exports and have similar economic structures. Both are commodity-dependent developed economies with exposure to global commodity price cycles. The lecture emphasizes that for ETFs and currencies, qualitative selection should focus on 'Exposed to common economic factors.' While they track different country indices and have different holdings, the underlying economic forces affecting both countries create a stable long-term relationship despite short-term divergences.",
+      difficulty: "Intermediate",
+      concept: "Pairs Selection for ETFs",
+      hint: "Think about what economic factors would affect both countries' stock markets similarly."
+    },
+    {
+      id: 30,
+      question: "What is the purpose of calculating percentage_change (pct_change) in addition to prices_difference in the strategy code?",
+      options: [
+        "To calculate returns instead of absolute PnL",
+        "To normalize for different price levels",
+        "To comply with regulatory requirements",
+        "To reduce computational complexity"
+      ],
+      correct: 0,
+      explanation: "The code calculates both: (1) prices_difference for absolute PnL calculation: df['pnl'] = df.positions.shift(1) × df.prices_difference, and (2) percentage_change for returns calculation: df['strategy_returns'] = df.positions.shift(1) × df.percentage_change. Returns are important for performance metrics like Sharpe ratio, comparing strategies with different capital levels, and calculating cumulative compounded returns. The cumulative returns calculation df['cumulative_returns'] = (df.strategy_returns+1).cumprod() shows the compounded growth of the strategy, which is more meaningful than just cumulative PnL for long-term performance assessment.",
+      difficulty: "Advanced",
+      concept: "Strategy Performance Metrics",
+      hint: "Consider the difference between making $100 profit on a $1000 investment versus a $100,000 investment."
+    },
+    {
+      id: 31,
+      question: "Why does the lecture recommend using a combination of mean-reversion and momentum strategies?",
+      options: [
+        "To increase trading frequency",
+        "To diversify across different market conditions",
+        "To satisfy regulatory requirements",
+        "To reduce data requirements"
+      ],
+      correct: 1,
+      explanation: "Combining mean-reversion and momentum strategies helps manage the risk that cointegration breaks down. Mean-reversion strategies profit when spreads oscillate around a stable mean (range-bound conditions), while momentum strategies profit when trends develop (trending conditions). When a cointegration relationship breaks and the spread starts trending instead of mean-reverting, a pure mean-reversion strategy would accumulate losses, but a momentum component could detect the trend and adapt. This diversification across different market regimes provides more robust risk management than relying solely on mean-reversion.",
+      difficulty: "Advanced",
+      concept: "Strategy Diversification",
+      hint: "Think about what happens when the market conditions change from range-bound to trending."
+    },
+    {
+      id: 32,
+      question: "What is the significance of testing cointegration on a training set before deploying a pairs trading strategy?",
+      options: [
+        "It's required by regulations",
+        "To verify the relationship exists historically before risking real capital",
+        "To increase the Sharpe ratio",
+        "To reduce transaction costs"
+      ],
+      correct: 1,
+      explanation: "Testing cointegration on a training set (historical data) before live trading verifies that the statistical relationship existed in the past, giving you confidence it might persist in the future. However, the lecture emphasizes through the LTCM case study that over-reliance on backtesting is dangerous - past cointegration doesn't guarantee future cointegration. The proper approach is: (1) Test cointegration on training data, (2) Validate on out-of-sample data, (3) Implement with strict risk management assuming the relationship could break down. The training set should be recent enough to be relevant but old enough to provide statistical power.",
+      difficulty: "Intermediate",
+      concept: "Backtesting and Validation",
+      hint: "Consider both the value and the limitations of historical testing."
+    },
+    {
+      id: 33,
+      question: "In the lecture's example comparing stock pairs, why are Coca-Cola (KO) and PepsiCo (PEP) potentially good cointegration candidates?",
+      options: [
+        "They have the same stock price",
+        "They are in the same sector with similar business models",
+        "They are located in the same city",
+        "They have the same market capitalization"
+      ],
+      correct: 1,
+      explanation: "KO and PEP are both beverage companies in the consumer staples sector with similar business models (branded soft drinks and snacks), market exposure, and response to economic factors like consumer spending, commodity costs (sugar, aluminum), and retail trends. The lecture's qualitative selection criteria for stocks emphasize: Same Sector, Similar Market Capitalization, and Similar Ratios. While they don't have identical market caps or prices, their similar business fundamentals create the potential for cointegration. They face similar competitive pressures, regulatory environments, and consumer preference shifts.",
+      difficulty: "Basic",
+      concept: "Qualitative Pairs Selection",
+      hint: "Focus on what would make two companies respond similarly to economic and industry factors."
+    },
+    {
+      id: 34,
+      question: "What does the lecture mean by 'Life is not easy!' regarding stationarity?",
+      options: [
+        "Statistical tests are too complicated",
+        "It's difficult to find naturally occurring stationary price series",
+        "Trading software is unreliable",
+        "Markets are too efficient for arbitrage"
+      ],
+      correct: 1,
+      explanation: "The lecture states: 'Life is not easy! It is difficult to find naturally occurring price series which are stationary.' Most financial instruments exhibit trends, regime changes, or random walk behavior rather than mean-reverting around a constant level. This is why statistical arbitrage strategies typically construct synthetic stationary series through pairs trading or portfolio combinations rather than trading individual instruments. Even currency pairs and commodity spreads, which are more likely to be stationary than individual stocks, require careful testing and often only show partial or temporary stationarity.",
+      difficulty: "Basic",
+      concept: "Challenges in Statistical Arbitrage",
+      hint: "Think about whether most stock or asset prices tend to stay around the same level over long periods."
+    },
+    {
+      id: 35,
+      question: "What is the primary reason the lecture recommends allocating funds across different pair portfolios?",
+      options: [
+        "To maximize returns",
+        "To meet minimum trading volume requirements",
+        "To reduce risk of concentrated exposure to one relationship breaking down",
+        "To qualify for lower commission rates"
+      ],
+      correct: 2,
+      explanation: "The lecture recommends: 'It's a good practice to allocate fund to different pair portfolio rather than one single trade.' This diversification protects against the risk that any single cointegration relationship breaks down. If you concentrate all capital in one pair and that relationship breaks (due to merger, bankruptcy, sector rotation, regulatory change, etc.), you could face catastrophic losses. By spreading across multiple uncorrelated pairs, you reduce the impact of any single pair's failure. This is fundamental portfolio risk management applied to statistical arbitrage strategies.",
+      difficulty: "Intermediate",
+      concept: "Portfolio Risk Management",
+      hint: "Consider what happens to your entire trading capital if you're all-in on one pair that breaks cointegration."
+    },
+    {
+      id: 36,
+      question: "If you're analyzing the spread of GLD (Gold ETF) and GDX (Gold Miners ETF), and the spread appears to trend upward consistently, what does this suggest?",
+      options: [
+        "The instruments are perfectly cointegrated",
+        "This is ideal for pairs trading",
+        "The instruments are likely NOT cointegrated",
+        "You should increase position sizes"
+      ],
+      correct: 2,
+      explanation: "A spread that trends upward consistently is non-stationary, indicating the instruments are NOT cointegrated. Cointegration requires the spread to be stationary - oscillating around a constant mean rather than trending. GLD represents physical gold prices while GDX represents gold mining companies' stocks. Although related, mining stocks have additional factors (operational costs, management quality, production hedges, equity market sentiment) that can cause their relationship with gold prices to drift over time. The lecture examples show that visual inspection of spread behavior complements formal ADF testing.",
+      difficulty: "Intermediate",
+      concept: "Identifying Non-Cointegration",
+      hint: "Remember that cointegration requires the spread to be stationary, not trending."
+    },
+    {
+      id: 37,
+      question: "Why does the lecture emphasize using linear regression to find the hedge ratio rather than simply using a ratio of prices?",
+      options: [
+        "Linear regression is faster to compute",
+        "It finds the optimal ratio that minimizes spread variance",
+        "Regulations require linear regression",
+        "It produces higher returns"
+      ],
+      correct: 1,
+      explanation: "Linear regression (Y = m×X + c) finds the coefficient m that minimizes the variance of the residuals (spread = Y - m×X). This is the optimal hedge ratio that produces the most stationary spread possible between the two instruments. Simply using a price ratio or 1:1 ratio would be arbitrary and unlikely to produce a stationary spread. The regression approach is mathematically optimal for finding the linear combination with minimum variance. The lecture demonstrates this with: model = sm.OLS(df.EWC, df.EWA), where the resulting coefficient is the hedge ratio.",
+      difficulty: "Advanced",
+      concept: "Hedge Ratio Calculation",
+      hint: "Think about what mathematical property we want to optimize when creating the spread."
+    },
+    {
+      id: 38,
+      question: "What is the main difference between using the ADF test versus the Johansen test for cointegration?",
+      options: [
+        "ADF is for two instruments; Johansen can handle multiple instruments",
+        "ADF is more accurate",
+        "Johansen is simpler to implement",
+        "They test completely different properties"
+      ],
+      correct: 0,
+      explanation: "The ADF test, as presented in the lecture, is primarily used for testing stationarity of a single series (including the spread between two instruments). The Johansen test, mentioned in 'Further Readings,' is designed to test for cointegration among multiple (more than two) time series simultaneously and can identify multiple cointegrating relationships. For two-instrument pairs trading, you can use ADF by first creating the spread via regression, then testing that spread for stationarity. For triplets or larger portfolios, the Johansen test is more appropriate as it can find the cointegrating vectors for multiple instruments simultaneously.",
+      difficulty: "Advanced",
+      concept: "Advanced Cointegration Testing",
+      hint: "Consider how you would test whether three or more instruments have cointegrating relationships."
+    },
+    {
+      id: 39,
+      question: "In a mean-reversion strategy, what is the risk of using too short a lookback period for the moving average?",
+      options: [
+        "Higher transaction costs from overtrading",
+        "Missing long-term trends",
+        "Regulatory violations",
+        "Insufficient historical data"
+      ],
+      correct: 0,
+      explanation: "A very short lookback period makes the moving average and bands highly sensitive to short-term price fluctuations, generating many false signals and causing overtrading. This increases transaction costs (commissions, spreads, slippage) which can overwhelm the strategy's edge. The lecture suggests using half-life to guide lookback period selection - half-life represents the time scale of mean reversion, and the lookback should be some multiple of this. Too short = overtrading and noise; too long = slow response and missing opportunities. Optimization in the training set helps find the balance.",
+      difficulty: "Intermediate",
+      concept: "Parameter Selection Trade-offs",
+      hint: "Think about what happens when your bands adjust too quickly to every small price change."
+    },
+    {
+      id: 40,
+      question: "According to the lecture, why can't you just run a backtest on a trading strategy directly instead of using a statistical test for stationarity?",
+      options: [
+        "Backtests are too expensive",
+        "Backtest results depend on input parameters; statistical tests incorporate all data points",
+        "Regulations prohibit backtesting",
+        "Backtests always show positive results"
+      ],
+      correct: 1,
+      explanation: "The lecture explains: 'Why not just run a backtest on the trading strategy directly and be done with it? Why do we need a statistical test?' The answer is: (1) The backtest output depends on the input parameters (lookback period, band width, entry/exit rules), which can be curve-fit to historical data, whereas (2) A statistical test incorporates all the data points in a single test, and (3) Statistical tests are faster. The ADF test provides an objective, parameter-free assessment of stationarity, while backtest results can be misleading due to overfitting, parameter sensitivity, and data snooping bias.",
+      difficulty: "Intermediate",
+      concept: "Statistical Testing vs Backtesting",
+      hint: "Consider whether backtest results might be overly optimized to past data versus getting an objective statistical assessment."
+    }
+  ]
 }
 };
 
