@@ -187,6 +187,40 @@ function App() {
 
   // Render Dashboard
   const renderDashboard = () => {
+    // Define section metadata
+    const sections = {
+      MLT: {
+        title: 'Machine Learning Tests',
+        description: 'Comprehensive machine learning concepts for quantitative finance',
+        icon: '🤖'
+      },
+      EFS: {
+        title: 'Equity & Financial Strategies',
+        description: 'Trading systems, backtesting, and strategy development',
+        icon: '📈'
+      },
+      MMT: {
+        title: 'Market Microstructure & Trading',
+        description: 'Market mechanics, order types, and execution strategies',
+        icon: '⚡'
+      }
+    };
+
+    // Group chapters by section prefix
+    const groupedChapters = {};
+    Object.entries(chaptersData).forEach(([chapterId, chapter]) => {
+      const prefix = chapterId.split('-')[0]; // Extract MLT, EFS, MMT, etc.
+      if (!groupedChapters[prefix]) {
+        groupedChapters[prefix] = [];
+      }
+      groupedChapters[prefix].push({ id: chapterId, data: chapter });
+    });
+
+    // Sort chapters within each section by ID
+    Object.keys(groupedChapters).forEach(prefix => {
+      groupedChapters[prefix].sort((a, b) => a.id.localeCompare(b.id));
+    });
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 p-8">
         <div className="max-w-6xl mx-auto">
@@ -195,95 +229,120 @@ function App() {
             <p className="text-xl text-gray-600">Master your EPAT preparation with interactive learning</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Object.entries(chaptersData).map(([chapterId, chapter]) => {
-              const stats = getChapterStats(chapterId);
+          {/* Render each section */}
+          {Object.entries(groupedChapters).map(([prefix, chapters]) => {
+            const sectionInfo = sections[prefix] || {
+              title: prefix,
+              description: '',
+              icon: '📚'
+            };
 
-              return (
-                <div
-                  key={chapterId}
-                  className="bg-white rounded-xl shadow-md p-6 card-hover border border-gray-200 flex flex-col"
-                >
-                  <div className="flex items-start mb-4">
-                    <BookOpen className="w-8 h-8 text-blue-600 mr-3 flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <h2 className="text-xl font-bold text-gray-900 truncate">{chapter.title}</h2>
-                      <p className="text-sm text-gray-500">{chapterId}</p>
-                    </div>
+            return (
+              <div key={prefix} className="mb-12">
+                {/* Section Header */}
+                <div className="mb-6">
+                  <div className="flex items-center mb-2">
+                    <span className="text-4xl mr-3">{sectionInfo.icon}</span>
+                    <h2 className="text-3xl font-bold text-gray-900">{sectionInfo.title}</h2>
                   </div>
-
-                  <p className="text-gray-700 text-sm mb-4 line-clamp-2 flex-grow">{chapter.description}</p>
-
-                  {/* Progress Stats */}
-                  <div className="mb-4">
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
-                      <span>Progress</span>
-                      <span>{stats.answeredCount}/{stats.totalQuestions} questions</span>
-                    </div>
-                    <div className="progress-bar">
-                      <div
-                        className="progress-fill bg-blue-600"
-                        style={{ width: `${(stats.answeredCount / stats.totalQuestions) * 100}%` }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-4 gap-3 text-sm mb-4 py-3 border-t border-gray-100">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-green-600">{stats.correctCount}</div>
-                      <div className="text-gray-600 text-xs mt-1">Correct</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">{stats.accuracy}%</div>
-                      <div className="text-gray-600 text-xs mt-1">Accuracy</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-yellow-600">{stats.flaggedCount}</div>
-                      <div className="text-gray-600 text-xs mt-1">Flagged</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-purple-600">{stats.totalQuestions}</div>
-                      <div className="text-gray-600 text-xs mt-1">Total</div>
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="space-y-2 mt-auto">
-                    <button
-                      onClick={() => startChapter(chapterId, 'practice')}
-                      className="w-full btn-primary text-sm"
-                    >
-                      Practice Mode
-                    </button>
-                    <button
-                      onClick={() => startChapter(chapterId, 'test')}
-                      className="w-full btn-secondary text-sm"
-                    >
-                      Test Mode
-                    </button>
-                    {stats.flaggedCount > 0 && (
-                      <button
-                        onClick={() => startChapter(chapterId, 'review')}
-                        className="w-full px-4 py-2 bg-yellow-600 text-white rounded-lg text-sm hover:bg-yellow-700 transition-colors flex items-center justify-center"
-                      >
-                        <Flag className="w-4 h-4 mr-2" />
-                        Review Flagged ({stats.flaggedCount})
-                      </button>
-                    )}
-                    {stats.answeredCount > 0 && (
-                      <button
-                        onClick={() => resetChapterProgress(chapterId)}
-                        className="w-full px-4 py-2 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700 transition-colors flex items-center justify-center"
-                      >
-                        <RotateCcw className="w-4 h-4 mr-2" />
-                        Reset Progress
-                      </button>
-                    )}
-                  </div>
+                  {sectionInfo.description && (
+                    <p className="text-gray-600 ml-16">{sectionInfo.description}</p>
+                  )}
                 </div>
-              );
-            })}
-          </div>
+
+                {/* Chapter Cards Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {chapters.map(({ id: chapterId, data: chapter }) => {
+                    const stats = getChapterStats(chapterId);
+
+                    return (
+                      <div
+                        key={chapterId}
+                        className="bg-white rounded-xl shadow-md p-6 card-hover border border-gray-200 flex flex-col"
+                      >
+                        <div className="flex items-start mb-4">
+                          <BookOpen className="w-8 h-8 text-blue-600 mr-3 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-xl font-bold text-gray-900 truncate">{chapter.title}</h3>
+                            <p className="text-sm text-gray-500">{chapterId}</p>
+                          </div>
+                        </div>
+
+                        <p className="text-gray-700 text-sm mb-4 line-clamp-2 flex-grow">{chapter.description}</p>
+
+                        {/* Progress Stats */}
+                        <div className="mb-4">
+                          <div className="flex justify-between text-sm text-gray-600 mb-2">
+                            <span>Progress</span>
+                            <span>{stats.answeredCount}/{stats.totalQuestions} questions</span>
+                          </div>
+                          <div className="progress-bar">
+                            <div
+                              className="progress-fill bg-blue-600"
+                              style={{ width: `${(stats.answeredCount / stats.totalQuestions) * 100}%` }}
+                            ></div>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-4 gap-3 text-sm mb-4 py-3 border-t border-gray-100">
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-green-600">{stats.correctCount}</div>
+                            <div className="text-gray-600 text-xs mt-1">Correct</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-blue-600">{stats.accuracy}%</div>
+                            <div className="text-gray-600 text-xs mt-1">Accuracy</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-yellow-600">{stats.flaggedCount}</div>
+                            <div className="text-gray-600 text-xs mt-1">Flagged</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-purple-600">{stats.totalQuestions}</div>
+                            <div className="text-gray-600 text-xs mt-1">Total</div>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="space-y-2 mt-auto">
+                          <button
+                            onClick={() => startChapter(chapterId, 'practice')}
+                            className="w-full btn-primary text-sm"
+                          >
+                            Practice Mode
+                          </button>
+                          <button
+                            onClick={() => startChapter(chapterId, 'test')}
+                            className="w-full btn-secondary text-sm"
+                          >
+                            Test Mode
+                          </button>
+                          {stats.flaggedCount > 0 && (
+                            <button
+                              onClick={() => startChapter(chapterId, 'review')}
+                              className="w-full px-4 py-2 bg-yellow-600 text-white rounded-lg text-sm hover:bg-yellow-700 transition-colors flex items-center justify-center"
+                            >
+                              <Flag className="w-4 h-4 mr-2" />
+                              Review Flagged ({stats.flaggedCount})
+                            </button>
+                          )}
+                          {stats.answeredCount > 0 && (
+                            <button
+                              onClick={() => resetChapterProgress(chapterId)}
+                              className="w-full px-4 py-2 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700 transition-colors flex items-center justify-center"
+                            >
+                              <RotateCcw className="w-4 h-4 mr-2" />
+                              Reset Progress
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     );
