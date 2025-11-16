@@ -14,6 +14,7 @@ function App() {
   const [testAnswers, setTestAnswers] = useState({});
   const [testSubmitted, setTestSubmitted] = useState(false);
   const [progress, setProgress] = useState({});
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
 
   // Load progress on mount
   useEffect(() => {
@@ -25,26 +26,44 @@ function App() {
   const getCurrentQuestion = () => {
     if (!currentChapter) return null;
     const chapter = chaptersData[currentChapter];
+
+    // If in review mode, use filtered questions
+    if (studyMode === 'review' && filteredQuestions.length > 0) {
+      return filteredQuestions[currentQuestionIndex];
+    }
+
     return chapter?.questions[currentQuestionIndex];
+  };
+
+  // Get total questions count based on mode
+  const getTotalQuestions = () => {
+    if (!currentChapter) return 0;
+    const chapter = chaptersData[currentChapter];
+
+    if (studyMode === 'review' && filteredQuestions.length > 0) {
+      return filteredQuestions.length;
+    }
+
+    return chapter?.questions.length || 0;
   };
 
   // Get chapter progress stats
   const getChapterStats = (chapterId) => {
     const chapter = chaptersData[chapterId];
-    const chapterProgress = progress[chapterId] || { answeredQuestions: {}, correctAnswers: {} };
+    const chapterProgress = progress[chapterId] || { answeredQuestions: {}, correctAnswers: {}, flaggedQuestions: [] };
 
     const totalQuestions = chapter.questions.length;
     const answeredCount = Object.keys(chapterProgress.answeredQuestions).length;
     const correctCount = Object.values(chapterProgress.correctAnswers).filter(Boolean).length;
     const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+    const flaggedCount = (chapterProgress.flaggedQuestions || []).length;
 
-    return { totalQuestions, answeredCount, correctCount, accuracy };
+    return { totalQuestions, answeredCount, correctCount, accuracy, flaggedCount };
   };
 
   // Start chapter
   const startChapter = (chapterId, mode = 'practice') => {
     setCurrentChapter(chapterId);
-    setCurrentQuestionIndex(0);
     setStudyMode(mode);
     setCurrentView('quiz');
     setSelectedAnswer(null);
@@ -52,11 +71,25 @@ function App() {
     setShowHint(false);
     setTestAnswers({});
     setTestSubmitted(false);
+
+    // If review mode, filter to only flagged questions
+    if (mode === 'review') {
+      const chapter = chaptersData[chapterId];
+      const chapterProgress = progress[chapterId] || { flaggedQuestions: [] };
+      const flaggedIds = new Set(chapterProgress.flaggedQuestions || []);
+
+      const flaggedQuestions = chapter.questions.filter(q => flaggedIds.has(q.id));
+      setFilteredQuestions(flaggedQuestions);
+      setCurrentQuestionIndex(0);
+    } else {
+      setFilteredQuestions([]);
+      setCurrentQuestionIndex(0);
+    }
   };
 
   // Handle answer selection
   const handleAnswerSelect = (answerIndex) => {
-    if (studyMode === 'practice') {
+    if (studyMode === 'practice' || studyMode === 'review') {
       setSelectedAnswer(answerIndex);
       setShowExplanation(true);
 
@@ -79,8 +112,8 @@ function App() {
 
   // Navigate to next question
   const nextQuestion = () => {
-    const chapter = chaptersData[currentChapter];
-    if (currentQuestionIndex < chapter.questions.length - 1) {
+    const totalQuestions = getTotalQuestions();
+    if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedAnswer(null);
       setShowExplanation(false);
@@ -197,18 +230,22 @@ function App() {
                     </div>
                   </div>
 
-                  <div className="flex justify-between text-sm mb-4">
+                  <div className="grid grid-cols-4 gap-2 text-sm mb-4">
                     <div className="text-center">
                       <div className="text-2xl font-bold text-green-600">{stats.correctCount}</div>
-                      <div className="text-gray-600">Correct</div>
+                      <div className="text-gray-600 text-xs">Correct</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-blue-600">{stats.accuracy}%</div>
-                      <div className="text-gray-600">Accuracy</div>
+                      <div className="text-gray-600 text-xs">Accuracy</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-yellow-600">{stats.flaggedCount}</div>
+                      <div className="text-gray-600 text-xs">Flagged</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-purple-600">{stats.totalQuestions}</div>
-                      <div className="text-gray-600">Total</div>
+                      <div className="text-gray-600 text-xs">Total</div>
                     </div>
                   </div>
 
@@ -226,6 +263,15 @@ function App() {
                     >
                       Test Mode
                     </button>
+                    {stats.flaggedCount > 0 && (
+                      <button
+                        onClick={() => startChapter(chapterId, 'review')}
+                        className="w-full px-4 py-2 bg-yellow-600 text-white rounded-lg text-sm hover:bg-yellow-700 transition-colors flex items-center justify-center"
+                      >
+                        <Flag className="w-4 h-4 mr-2" />
+                        Review Flagged ({stats.flaggedCount})
+                      </button>
+                    )}
                     {stats.answeredCount > 0 && (
                       <button
                         onClick={() => resetChapterProgress(chapterId)}
@@ -249,6 +295,29 @@ function App() {
   const renderQuiz = () => {
     const chapter = chaptersData[currentChapter];
     const question = getCurrentQuestion();
+
+    // If in review mode and no flagged questions
+    if (studyMode === 'review' && filteredQuestions.length === 0) {
+      return (
+        <div className="min-h-screen bg-gray-50 p-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-xl shadow-md p-8 text-center">
+              <Flag className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">No Flagged Questions</h2>
+              <p className="text-gray-600 mb-6">
+                You haven't flagged any questions for review in this chapter yet.
+              </p>
+              <button
+                onClick={returnToDashboard}
+                className="btn-primary"
+              >
+                Return to Dashboard
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     if (!question) return null;
 
@@ -280,14 +349,26 @@ function App() {
                 </button>
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">{chapter.title}</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-900">{chapter.title}</h2>
+              {studyMode === 'review' && (
+                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-semibold rounded-full">
+                  Review Mode
+                </span>
+              )}
+              {studyMode === 'test' && (
+                <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">
+                  Test Mode
+                </span>
+              )}
+            </div>
             <p className="text-gray-600 mt-2">
-              Question {currentQuestionIndex + 1} of {chapter.questions.length}
+              Question {currentQuestionIndex + 1} of {getTotalQuestions()}
             </p>
             <div className="progress-bar mt-4">
               <div
                 className="progress-fill bg-blue-600"
-                style={{ width: `${((currentQuestionIndex + 1) / chapter.questions.length) * 100}%` }}
+                style={{ width: `${((currentQuestionIndex + 1) / getTotalQuestions()) * 100}%` }}
               ></div>
             </div>
           </div>
@@ -342,7 +423,7 @@ function App() {
             </div>
 
             {/* Hint */}
-            {!isTestMode && (
+            {(studyMode === 'practice' || studyMode === 'review') && (
               <div className="mt-6">
                 <button
                   onClick={() => setShowHint(!showHint)}
@@ -387,7 +468,7 @@ function App() {
               Previous
             </button>
 
-            {isTestMode && !testSubmitted && currentQuestionIndex === chapter.questions.length - 1 && (
+            {isTestMode && !testSubmitted && currentQuestionIndex === getTotalQuestions() - 1 && (
               <button
                 onClick={submitTest}
                 className="btn-success"
@@ -396,7 +477,7 @@ function App() {
               </button>
             )}
 
-            {currentQuestionIndex < chapter.questions.length - 1 && (
+            {currentQuestionIndex < getTotalQuestions() - 1 && (
               <button
                 onClick={nextQuestion}
                 className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
@@ -406,7 +487,7 @@ function App() {
               </button>
             )}
 
-            {currentQuestionIndex === chapter.questions.length - 1 && (!isTestMode || testSubmitted) && (
+            {currentQuestionIndex === getTotalQuestions() - 1 && (!isTestMode || testSubmitted) && (
               <button
                 onClick={returnToDashboard}
                 className="btn-success"
