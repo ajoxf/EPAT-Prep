@@ -188,7 +188,7 @@ function App() {
   // Render Dashboard
   const renderDashboard = () => {
     return (
-      <div className="min-h-screen bg-gray-50 p-8">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 p-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-5xl font-bold text-gray-900 mb-4">Quantitative Finance LMS</h1>
@@ -202,19 +202,17 @@ function App() {
               return (
                 <div
                   key={chapterId}
-                  className="bg-white rounded-xl shadow-md p-6 card-hover border border-gray-200"
+                  className="bg-white rounded-xl shadow-md p-6 card-hover border border-gray-200 flex flex-col"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center">
-                      <BookOpen className="w-8 h-8 text-blue-600 mr-3" />
-                      <div>
-                        <h2 className="text-xl font-bold text-gray-900">{chapter.title}</h2>
-                        <p className="text-sm text-gray-500">{chapterId}</p>
-                      </div>
+                  <div className="flex items-start mb-4">
+                    <BookOpen className="w-8 h-8 text-blue-600 mr-3 flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <h2 className="text-xl font-bold text-gray-900 truncate">{chapter.title}</h2>
+                      <p className="text-sm text-gray-500">{chapterId}</p>
                     </div>
                   </div>
 
-                  <p className="text-gray-700 text-sm mb-4 line-clamp-2">{chapter.description}</p>
+                  <p className="text-gray-700 text-sm mb-4 line-clamp-2 flex-grow">{chapter.description}</p>
 
                   {/* Progress Stats */}
                   <div className="mb-4">
@@ -230,27 +228,27 @@ function App() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-4 gap-2 text-sm mb-4">
+                  <div className="grid grid-cols-4 gap-3 text-sm mb-4 py-3 border-t border-gray-100">
                     <div className="text-center">
                       <div className="text-2xl font-bold text-green-600">{stats.correctCount}</div>
-                      <div className="text-gray-600 text-xs">Correct</div>
+                      <div className="text-gray-600 text-xs mt-1">Correct</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-blue-600">{stats.accuracy}%</div>
-                      <div className="text-gray-600 text-xs">Accuracy</div>
+                      <div className="text-gray-600 text-xs mt-1">Accuracy</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-yellow-600">{stats.flaggedCount}</div>
-                      <div className="text-gray-600 text-xs">Flagged</div>
+                      <div className="text-gray-600 text-xs mt-1">Flagged</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-purple-600">{stats.totalQuestions}</div>
-                      <div className="text-gray-600 text-xs">Total</div>
+                      <div className="text-gray-600 text-xs mt-1">Total</div>
                     </div>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 mt-auto">
                     <button
                       onClick={() => startChapter(chapterId, 'practice')}
                       className="w-full btn-primary text-sm"
@@ -299,7 +297,7 @@ function App() {
     // If in review mode and no flagged questions
     if (studyMode === 'review' && filteredQuestions.length === 0) {
       return (
-        <div className="min-h-screen bg-gray-50 p-8">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 p-8">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-xl shadow-md p-8 text-center">
               <Flag className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -325,7 +323,7 @@ function App() {
     const userAnswer = isTestMode ? testAnswers[currentQuestionIndex] : selectedAnswer;
 
     return (
-      <div className="min-h-screen bg-gray-50 p-8">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 p-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-200">
@@ -349,18 +347,20 @@ function App() {
                 </button>
               </div>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-2">
               <h2 className="text-2xl font-bold text-gray-900">{chapter.title}</h2>
-              {studyMode === 'review' && (
-                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-semibold rounded-full">
-                  Review Mode
-                </span>
-              )}
-              {studyMode === 'test' && (
-                <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">
-                  Test Mode
-                </span>
-              )}
+              <div>
+                {studyMode === 'review' && (
+                  <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-semibold rounded-full">
+                    Review Mode
+                  </span>
+                )}
+                {studyMode === 'test' && (
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">
+                    Test Mode
+                  </span>
+                )}
+              </div>
             </div>
             <p className="text-gray-600 mt-2">
               Question {currentQuestionIndex + 1} of {getTotalQuestions()}
